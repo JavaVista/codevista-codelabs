@@ -1,0 +1,9 @@
+{
+  "title": "CodeVista Labs",
+  "description": "Hands-on coding tutorials by Javi Carrion—Software Engineer",
+  "tags": ["angular", "firebase", "web"],
+  "categories": ["frontend", "backend", "fullstack"],
+  "logoUrl": "/images/codevista-logo.png",
+  "toolbarBgColor": "#1976D2",
+  "sort": "mainCategory"
+}

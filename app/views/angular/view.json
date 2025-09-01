@@ -1,0 +1,12 @@
+{
+  "title": "Angular Tutorials",
+  "description": "Angular specific coding tutorials",
+  "logoUrl": "/images/GoogleLogos/angular_gradient.png",
+  "tags": ["angular"],
+  "categories": ["frontend", "fullstack", "backend"],
+  "exclude": [
+    "^lang-.*"
+  ],
+  "toolbarBgColor": "#1976D2",
+  "sort": "mainCategory"
+}

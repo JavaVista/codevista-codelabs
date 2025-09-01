@@ -1,0 +1,12 @@
+{
+  "title": "Google Cloud Platform",
+  "description": "Cloud deployment and GCP tutorials",
+  "logoUrl": "/images/GoogleLogos/Google Cloud.png",
+  "tags": ["cloud", "gcp", "firebase"],
+  "categories": ["cloud", "backend", "database"],
+  "exclude": [
+    "^lang-.*"
+  ],
+  "toolbarBgColor": "#1976D2",
+  "sort": "mainCategory"
+}

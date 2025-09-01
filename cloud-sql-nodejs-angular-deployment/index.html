@@ -1,0 +1,223 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Deploy an application with a database using Cloud SQL, Node.js connector, and Angular</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="cloud-sql-nodejs-angular-deployment"
+                  title="Deploy an application with a database using Cloud SQL, Node.js connector, and Angular"
+                  environment="web"
+                  feedback-link="https://github.com/googlecodelabs/your-first-pwapp/issues">
+    
+      <google-codelab-step label="Overview" duration="10">
+        <p>In this codelab, you&#39;ll learn how to deploy a full-stack application with a database to Google Cloud. You&#39;ll use the Cloud SQL Node.js connector to connect a Node.js backend to a Cloud SQL database, and an Angular frontend to interact with the backend.</p>
+<h2 class="checklist" is-upgraded>What you&#39;ll learn</h2>
+<ul class="checklist">
+<li>How to create a Cloud SQL instance</li>
+<li>How to connect to Cloud SQL from a Node.js application</li>
+<li>How to create a simple Angular frontend</li>
+<li>How to deploy the application to Google Cloud</li>
+</ul>
+<h2 is-upgraded>What you&#39;ll need</h2>
+<ul>
+<li>A Google Cloud project</li>
+<li>A browser, such as Chrome or Firefox</li>
+<li>Familiarity with Node.js, Angular, and SQL</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Setup" duration="10">
+        <ol type="1">
+<li><strong>Create a Cloud SQL for PostgreSQL instance</strong><ul>
+<li>In the Google Cloud Console, navigate to the Cloud SQL instances page.</li>
+<li>Click <strong>Create instance</strong>.</li>
+<li>Click <strong>Choose PostgreSQL</strong>.</li>
+<li>Enter an instance ID, for example, <code>codelab-instance</code>.</li>
+<li>Enter a password for the <code>postgres</code> user.</li>
+<li>Click <strong>Create</strong>.</li>
+</ul>
+</li>
+<li><strong>Enable the Cloud SQL Admin API</strong><ul>
+<li>In the Google Cloud Console, navigate to the APIs &amp; Services dashboard.</li>
+<li>Click <strong>Enable APIs and Services</strong>.</li>
+<li>Search for <code>Cloud SQL Admin API</code> and enable it.</li>
+</ul>
+</li>
+<li><strong>Create a service account</strong><ul>
+<li>In the Google Cloud Console, navigate to the Service accounts page.</li>
+<li>Click <strong>Create service account</strong>.</li>
+<li>Enter a name, for example, <code>codelab-service-account</code>.</li>
+<li>Grant the <strong>Cloud SQL Client</strong> role to the service account.</li>
+<li>Click <strong>Done</strong>.</li>
+<li>Create a key for the service account and download it as a JSON file.</li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Backend" duration="20">
+        <ol type="1">
+<li><strong>Create a Node.js application</strong><ul>
+<li>Create a new directory for your application.</li>
+<li>Initialize a new Node.js project: <code>npm init -y</code></li>
+<li>Install the required dependencies: <code>npm install express @google-cloud/cloud-sql-connector</code></li>
+</ul>
+</li>
+<li><strong>Create the server</strong><ul>
+<li>Create a file named <code>index.js</code> and add the following code:</li>
+</ul>
+<pre><code language="language-javascript" class="language-javascript">const express = require(&#39;express&#39;);
+const { Connector } = require(&#39;@google-cloud/cloud-sql-connector&#39;);
+
+const app = express();
+const port = process.env.PORT || 8080;
+
+const connector = new Connector();
+const clientOpts = await connector.getOptions({
+  instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
+  ipType: &#39;PUBLIC&#39;,
+});
+
+const pool = new pg.Pool({
+  ...clientOpts,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+app.get(&#39;/&#39;, async (req, res) =&gt; {
+  const { rows } = await pool.query(&#39;SELECT NOW()&#39;);
+  res.send(`Hello from the database! The time is ${rows[0].now}`);
+});
+
+app.listen(port, () =&gt; {
+  console.log(`Server listening on port ${port}`);
+});
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Frontend" duration="20">
+        <ol type="1">
+<li><strong>Create an Angular application</strong><ul>
+<li>Install the Angular CLI: <code>npm install -g @angular/cli</code></li>
+<li>Create a new Angular application: <code>ng new frontend</code></li>
+</ul>
+</li>
+<li><strong>Create a service to fetch data from the backend</strong><ul>
+<li>Generate a new service: <code>ng generate service data</code></li>
+<li>Add the following code to <code>data.service.ts</code>:</li>
+</ul>
+<pre><code language="language-typescript" class="language-typescript">import { Injectable } from &#39;@angular/core&#39;;
+import { HttpClient } from &#39;@angular/common/http&#39;;
+
+@Injectable({
+  providedIn: &#39;root&#39;
+})
+export class DataService {
+  constructor(private http: HttpClient) { }
+
+  getData() {
+    return this.http.get(&#39;/api&#39;, { responseType: &#39;text&#39; });
+  }
+}
+</code></pre>
+</li>
+<li><strong>Display the data in the component</strong><ul>
+<li>Add the following code to <code>app.component.ts</code>:</li>
+</ul>
+<pre><code language="language-typescript" class="language-typescript">import { Component, OnInit } from &#39;@angular/core&#39;;
+import { DataService } from &#39;./data.service&#39;;
+
+@Component({
+  selector: &#39;app-root&#39;,
+  templateUrl: &#39;./app.component.html&#39;,
+  styleUrls: [&#39;./app.component.css&#39;]
+})
+export class AppComponent implements OnInit {
+  data = &#39;&#39;;
+
+  constructor(private dataService: DataService) { }
+
+  ngOnInit() {
+    this.dataService.getData().subscribe(data =&gt; {
+      this.data = data;
+    });
+  }
+}
+</code></pre>
+<ul>
+<li>Add the following code to <code>app.component.html</code>:</li>
+</ul>
+<pre><code language="language-html" class="language-html">&lt;h1&gt;&#123;&#123; data }}&lt;/h1&gt;
+</code></pre>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deployment" duration="10">
+        <ol type="1">
+<li><strong>Deploy the backend to Cloud Run</strong><ul>
+<li>Create a <code>Dockerfile</code> for the backend:</li>
+</ul>
+<pre><code language="language-dockerfile" class="language-dockerfile">FROM node:16
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install
+COPY . .
+CMD [ &#34;node&#34;, &#34;index.js&#34; ]
+</code></pre>
+<ul>
+<li>Build and push the Docker image to Google Container Registry.</li>
+<li>Deploy the image to Cloud Run.</li>
+</ul>
+</li>
+<li><strong>Deploy the frontend to Firebase Hosting</strong><ul>
+<li>Initialize Firebase Hosting in your Angular project.</li>
+<li>Build the Angular application: <code>ng build --prod</code></li>
+<li>Deploy the application to Firebase Hosting: <code>firebase deploy</code></li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
