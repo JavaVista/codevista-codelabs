@@ -4,9 +4,9 @@ id: cloud-sql-cloud-run-angular-deployment
 categories: backend,database,cloud,angular
 environments: Web
 status: Published
-feedback_link: https://github.com/googlecodelabs/your-first-pwapp/issues
+feedback_link: https://github.com/JavaVista/codevista-codelabs/issues
 
-# Deploy an application with a database using Cloud SQL, Node.js connector, and Angular
+# Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run & Cloud SQL
 
 ## Overview
 Duration: 0:10:00

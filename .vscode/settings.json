@@ -7,6 +7,7 @@
         "vtags"
     ],
     "conventionalCommits.scopes": [
-        "global"
+        "global",
+        "app"
     ]
 }
