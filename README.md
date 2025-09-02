@@ -1,18 +1,9 @@
 # 🎯 CodeVista Codelabs
 
-Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating and hosting interactive coding tutorials. Built with Angular Material v20 design principles, featuring a psychology-based color palette and full dark mode support.
+Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating and hosting interactive coding tutorials.
 
 ## ✨ Features
 
-### 🎨 **Modern Design**
-- **Angular Material v20 Colors**: Calming blues (#1976D2) and soothing greens (#388E3C) for focus, with vibrant orange (#FF6D00) accents for engagement
-- **Rounded Buttons**: 24px border-radius throughout for a modern, friendly appearance
-- **Custom CodeVista Branding**: Your logo integrated seamlessly into the interface
-
-### 🌙 **Dark Mode Support**
-- **Smart Toggle**: Automatic system preference detection + manual override
-- **Persistent Choice**: Remembers your theme preference across sessions
-- **Optimized Colors**: Carefully adjusted color palette for dark backgrounds
 
 ### 📚 **Content Management**
 - **Markdown-Based**: Write codelabs in simple Markdown format
@@ -33,7 +24,22 @@ npm install
 ```bash
 npm run serve
 ```
-Visit `http://localhost:3000` to see your codelabs site!
+Visit `http://localhost:8000` to see your codelabs site!
+
+## 🔧 Development
+
+| Command | Description |
+|---------|-------------|
+| `npm run serve` | Builds and serves the site locally with live-reloading at `http://localhost:8000` |
+| `npm run build` | Creates production build in `dist/` directory (minified, optimized) |
+| `npm run serve:dist` | Serves the production build from `dist/` for final testing |
+| `npm run deploy` | Builds for production and copies to `docs/` for GitHub Pages deployment |
+
+**Notes:**
+- `serve` is for development (watches files, rebuilds automatically)
+- `build` creates the optimized production version
+- `serve:dist` helps verify the final output
+- `deploy` prepares for GitHub Pages (copies build to `docs/`)
 
 ### 3. **Add Your First Codelab**
 ```bash
@@ -46,7 +52,14 @@ claat export codelabs/my-first-tutorial.md
 
 ## 📝 Creating Codelabs
 
-### **Write in Markdown**
+CodeVista uses **CLaaT** (Command Line Apps Authoring Tool) - Google's tool for generating interactive HTML tutorials from Markdown or Google Docs.
+
+📖 **Documentation Links:**
+- [CLaaT README](https://github.com/googlecodelabs/tools/blob/main/claat/README.md) - Learn about all CLaaT features and commands
+- [Format Guide](https://github.com/googlecodelabs/tools/blob/main/FORMAT-GUIDE.md) - Complete guide on supported syntax and metadata
+- [Setup & Usage](https://github.com/googlecodelabs/tools/blob/main/README.md) - How to install and use CLaaT
+
+### **Option 1: Create from Markdown**
 Create `.md` files in the `codelabs/` directory:
 
 ```markdown
@@ -73,6 +86,23 @@ claat export codelabs/my-awesome-tutorial.md
 ```
 
 This creates a `my-awesome-tutorial/` folder with the interactive HTML version.
+
+### **Option 2: Create from Google Docs**
+
+Prefer writing in Google Docs? That's also fully supported!
+
+1. **Write in Google Docs**: Create a new Google Doc and format it according to the [CLaaT Format Guide](https://github.com/googlecodelabs/tools/blob/main/FORMAT-GUIDE.md). Use the same structure as Markdown but with Google Docs features like comments, links, and tables.
+
+2. **Get Document ID**: Copy the unique document ID from your Google Doc URL (found after `docs.google.com/document/d/`).
+   - Example: For URL `https://docs.google.com/document/d/1E6XMcdTexh5O8JwGy42SY3Ehzi8gOfUGiqTiUX6N04o/edit?tab=t.0#heading=h.7sa4zxkhmsum`
+   - Document ID: `1E6XMcdTexh5O8JwGy42SY3Ehzi8gOfUGiqTiUX6N04o`
+
+3. **Export to HTML**:
+   ```bash
+   claat export <your_document_id>
+   ```
+
+   This downloads and generates your codelab as interactive HTML files.
 
 ### **Update the Site**
 ```bash
@@ -122,8 +152,8 @@ npm run build
 
 ```
 codevista-codelabs/
-├── 📝 codelabs/                    # Your tutorial source files
-│   └── my-tutorial.md
+├── 📝 codelabs/                    # Your tutorial source files (.md or export results)
+│   └── cloud-sql-cloud-run-angular-deployment.md  # Example codelab
 ├── 🏗️ build/                      # Generated site (deploy this)
 ├── 📱 app/
 │   ├── 🖼️ images/
@@ -142,10 +172,12 @@ codevista-codelabs/
 
 ## 🎯 Built-in Example
 
-The site comes with a complete example codelab: **"Deploy an application with a database using Cloud SQL, Node.js connector, and Angular"**
+The site comes has some codelabs that can be use as example.
 
-- **Source**: `codelabs/cloud-sql-nodejs-angular-deployment.md`
-- **Live Version**: `cloud-sql-nodejs-angular-deployment/index.html`
+For instance:
+
+- **Source**: `codelabs/cloud-sql-cloud-run-angular-deployment.md`
+- **Live Version**: `cloud-sql-cloud-run-angular-deployment/index.html`
 - **Categories**: backend, database, cloud, angular
 
 Use this as a template for creating your own tutorials!
@@ -159,25 +191,9 @@ Use this as a template for creating your own tutorials!
 - Test your instructions on a fresh environment
 - Keep steps focused and actionable
 
-### **Dark Mode Best Practices**
-- Toggle is in the top toolbar (moon/sun icon)
-- Respects system preferences automatically
-- Colors are optimized for both light and dark themes
-- All custom content automatically adapts
-
-### **Performance**
-- Images are automatically optimized
-- CSS is minified in production builds
-- Static generation means fast loading times
-- Perfect for GitHub Pages hosting
 
 ## 🆘 Need Help?
 
-### **Common Tasks**
-- **Add a logo**: Replace `app/images/codevista-logo.png`
-- **Change colors**: Edit `app/styles/_variables.scss`
-- **Update site title**: Modify `app/views/default/view.json`
-- **Test locally**: Run `npm run serve`
 
 ### **Troubleshooting**
 - **Site not updating?** Run `npm run build` to regenerate
@@ -187,3 +203,14 @@ Use this as a template for creating your own tutorials!
 ---
 
 **Ready to create amazing tutorials?** Start by exploring the example codelab, then create your own in the `codelabs/` directory. Happy teaching! 🚀
+
+## Contact / Social Media
+
+- Bluesky – [@code-vista.bsky.social‬](https://bsky.app/profile/code-vista.bsky.social)
+- GitHub - [https://github.com/JavaVista/](https://github.com/JavaVista/)
+- LinkedIn - [Javier Carrion](https://www.linkedin.com/in/technologic)
+- Website - [techno-logic.us](https://www.techno-logic.us)
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
