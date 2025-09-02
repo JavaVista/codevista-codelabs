@@ -9,17 +9,21 @@ feedback_link: https://github.com/JavaVista/codevista-codelabs/issues
 # Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run & Cloud SQL
 
 ## Overview
+
 Duration: 0:10:00
 
-In this codelab, you'll learn how to deploy a full-stack application with a database to Google Cloud. You'll use the Cloud SQL Node.js connector to connect a Node.js backend to a Cloud SQL database, and an Angular frontend to interact with the backend.
+In this codelab, you'll learn how to deploy a full-stack application with a database to [Google Cloud](https://cloud.google.com/). You'll use the [Cloud SQL Node.js connector](https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector) to connect a Node.js backend to a [Cloud SQL](https://cloud.google.com/sql) for [PostgreSQL](https://cloud.google.com/sql/postgresql) database, and an [Angular](https://angular.io/) frontend to interact with the backend.
 
-### What you'll learn
+### What you'll 
+
 - How to create a Cloud SQL instance
 - How to connect to Cloud SQL from a Node.js application
 - How to create a simple Angular frontend
 - How to deploy the application to Google Cloud
 
 ### What you'll need
+
+- Laptop + Google account (free trial OK), and billing enabled
 - A Google Cloud project
 - A browser, such as Chrome or Firefox
 - Familiarity with Node.js, Angular, and SQL
