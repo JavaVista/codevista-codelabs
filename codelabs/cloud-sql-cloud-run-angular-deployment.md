@@ -30,20 +30,32 @@ In this codelab, you'll learn how to deploy a full-stack application with a data
 
 ---
 
-## Setup
+## Prerequisites
+
 Duration: 0:10:00
 
-1.  **Create a Cloud SQL for PostgreSQL instance**
-    *   In the Google Cloud Console, navigate to the Cloud SQL instances page.
-    *   Click **Create instance**.
-    *   Click **Choose PostgreSQL**.
-    *   Enter an instance ID, for example, `codelab-instance`.
-    *   Enter a password for the `postgres` user.
-    *   Click **Create**.
+Before you begin, ensure you have a [Google Account](https://accounts.google.com/SignUp).
 
-2.  **Enable the Cloud SQL Admin API**
-    *   In the Google Cloud Console, navigate to the APIs & Services dashboard.
-    *   Click **Enable APIs and Services**.
+- If you do not already have a Google account, you must create a Google account.
+- Use a personal account instead of a work or school account. Work and school accounts may have restrictions that prevent you from enabling the APIs needed for this lab.
+
+---
+
+## Setup
+
+Duration: 0:10:00
+
+1. **Create a Cloud SQL for PostgreSQL instance**
+    - In the Google Cloud Console, navigate to the Cloud SQL instances page.
+    - Click **Create instance**.
+    - Click **Choose PostgreSQL**.
+    - Enter an instance ID, for example, `codelab-instance`.
+    - Enter a password for the `postgres` user.
+    - Click **Create**.
+
+2. **Enable the Cloud SQL Admin API**
+    - In the Google Cloud Console, navigate to the APIs & Services dashboard.
+    - Click **Enable APIs and Services**.
     *   Search for `Cloud SQL Admin API` and enable it.
 
 3.  **Create a service account**

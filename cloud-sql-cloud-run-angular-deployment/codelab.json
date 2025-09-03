@@ -3,12 +3,12 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2025-09-01T22:35:21-04:00",
+  "updated": "2025-09-02T22:13:16-04:00",
   "id": "cloud-sql-cloud-run-angular-deployment",
-  "duration": 70,
+  "duration": 80,
   "title": "Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run \u0026 Cloud SQL",
   "summary": "Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run \u0026 Cloud SQL",
-  "source": "codelabs/cloud-sql-cloud-run-angular-deployment.md",
+  "source": "",
   "theme": "",
   "status": [
     "published"
