@@ -1,4 +1,4 @@
-author: Google Cloud Team
+author: Javier Carrion
 summary: Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run & Cloud SQL
 id: cloud-sql-cloud-run-angular-deployment
 categories: backend,database,cloud,angular
@@ -41,30 +41,24 @@ Before you begin, ensure you have a [Google Account](https://accounts.google.com
 
 ---
 
-## Setup
+## Project Setup
 
 Duration: 0:10:00
 
-1. **Create a Cloud SQL for PostgreSQL instance**
-    - In the Google Cloud Console, navigate to the Cloud SQL instances page.
-    - Click **Create instance**.
-    - Click **Choose PostgreSQL**.
-    - Enter an instance ID, for example, `codelab-instance`.
-    - Enter a password for the `postgres` user.
-    - Click **Create**.
+1. Sign-in to the [Google Cloud Console](https://console.cloud.google.com/).
+   ![Google Cloud Console screen](/codelabs/assets/GCC.jpg)
+2. Enable [billing](https://console.cloud.google.com/billing) in the Cloud Console.
+   ![Billing screen](/codelabs/assets/Billing.jpg)
+   - Completing this lab should cost less than $1 USD in Cloud resources.
+   - You can follow the steps at the end of this lab to delete resources to avoid further charges.
+   - New users are eligible for the [($300 USD Free Trial)](http://cloud.google.com/free).
+   ![Billing screen](/codelabs/assets/NewUserFreeTrial.jpg)
+3. [Create a new project](https://console.cloud.google.com/projectcreate) or choose to reuse an existing project.
+   ![Create a new project screen](/codelabs/assets/CreateNewProject.jpg)
+   > *Create a new project screen*
 
-2. **Enable the Cloud SQL Admin API**
-    - In the Google Cloud Console, navigate to the APIs & Services dashboard.
-    - Click **Enable APIs and Services**.
-    *   Search for `Cloud SQL Admin API` and enable it.
-
-3.  **Create a service account**
-    *   In the Google Cloud Console, navigate to the Service accounts page.
-    *   Click **Create service account**.
-    *   Enter a name, for example, `codelab-service-account`.
-    *   Grant the **Cloud SQL Client** role to the service account.
-    *   Click **Done**.
-    *   Create a key for the service account and download it as a JSON file.
+   ![Reuse a project screen](/codelabs/assets/ReuseProject.jpg)
+   > *Reuse an existing project*
 
 ---
 
