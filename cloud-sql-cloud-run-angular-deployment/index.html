@@ -58,77 +58,50 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Setup" duration="10">
+      <google-codelab-step label="Project Setup" duration="10">
         <ol type="1">
-<li><strong>Create a Cloud SQL for PostgreSQL instance</strong><ul>
-<li>In the Google Cloud Console, navigate to the Cloud SQL instances page.</li>
-<li>Click <strong>Create instance</strong>.</li>
-<li>Click <strong>Choose PostgreSQL</strong>.</li>
-<li>Enter an instance ID, for example, <code>codelab-instance</code>.</li>
-<li>Enter a password for the <code>postgres</code> user.</li>
-<li>Click <strong>Create</strong>.</li>
+<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>. <img alt="Google Cloud Console screen" src="img/83d27f448453d3ee.jpg"></li>
+<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console. <img alt="Billing screen" src="img/ddec140c6e2a0507.jpg"><ul>
+<li>Completing this lab should cost less than $1 USD in Cloud resources.</li>
+<li>You can follow the steps at the end of this lab to delete resources to avoid further charges.</li>
+<li>New users are eligible for the <a href="http://cloud.google.com/free" target="_blank">($300 USD Free Trial)</a>. <img alt="Billing screen" src="img/276e890835d2652e.jpg"></li>
 </ul>
 </li>
-<li><strong>Enable the Cloud SQL Admin API</strong><ul>
-<li>In the Google Cloud Console, navigate to the APIs &amp; Services dashboard.</li>
-<li>Click <strong>Enable APIs and Services</strong>.</li>
-<li>Search for <code>Cloud SQL Admin API</code> and enable it.</li>
-</ul>
-</li>
-<li><strong>Create a service account</strong><ul>
-<li>In the Google Cloud Console, navigate to the Service accounts page.</li>
-<li>Click <strong>Create service account</strong>.</li>
-<li>Enter a name, for example, <code>codelab-service-account</code>.</li>
-<li>Grant the <strong>Cloud SQL Client</strong> role to the service account.</li>
-<li>Click <strong>Done</strong>.</li>
-<li>Create a key for the service account and download it as a JSON file.</li>
-</ul>
-</li>
+<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project. <img alt="Create a new project screen" src="img/8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img/cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
 </ol>
 
 
       </google-codelab-step>
     
-      <google-codelab-step label="Backend" duration="20">
+      <google-codelab-step label="Open Cloud Shell Editor" duration="20">
         <ol type="1">
-<li><strong>Create a Node.js application</strong><ul>
-<li>Create a new directory for your application.</li>
-<li>Initialize a new Node.js project: <code>npm init -y</code></li>
-<li>Install the required dependencies: <code>npm install express @google-cloud/cloud-sql-connector</code></li>
+<li>In your Project Welcome Screen click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal. <img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
+<li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.</li>
+<li>In the Cloud Shell Editor IDE open a terminal.<ul>
+<li>If the terminal doesn&#39;t appear on the bottom of the screen, open it: <ul>
+<li>In the menu bar click <strong>View</strong> and click <strong>Terminal</strong>. <img alt="Open Terminal" src="img/2226df4d309e004f.jpg"></li>
 </ul>
 </li>
-<li><strong>Create the server</strong><ul>
-<li>Create a file named <code>index.js</code> and add the following code:</li>
 </ul>
-<pre><code language="language-javascript" class="language-javascript">const express = require(&#39;express&#39;);
-const { Connector } = require(&#39;@google-cloud/cloud-sql-connector&#39;);
-
-const app = express();
-const port = process.env.PORT || 8080;
-
-const connector = new Connector();
-const clientOpts = await connector.getOptions({
-  instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
-  ipType: &#39;PUBLIC&#39;,
-});
-
-const pool = new pg.Pool({
-  ...clientOpts,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
-
-app.get(&#39;/&#39;, async (req, res) =&gt; {
-  const { rows } = await pool.query(&#39;SELECT NOW()&#39;);
-  res.send(`Hello from the database! The time is ${rows[0].now}`);
-});
-
-app.listen(port, () =&gt; {
-  console.log(`Server listening on port ${port}`);
-});
+</li>
+<li>In the terminal, we are going to set your project Id:<ul>
+<li>List all your project ids with<pre><code language="language-bash" class="language-bash">gcloud projects list | awk &#39;/PROJECT_ID/{print $2}&#39;
 </code></pre>
 </li>
+<li>Set your project id with<pre><code language="language-bash" class="language-bash">gcloud config set project PROJECT_ID
+</code></pre>
+Replace <code>PROJECT_ID</code> with your project id. For example:<pre><code language="language-bash" class="language-bash">gcloud config set project my-project-id
+</code></pre>
+</li>
+<li>Verify your project id with<pre><code language="language-bash" class="language-bash">gcloud config get-value project
+</code></pre>
+This should return your project id.</li>
+</ul>
+</li>
+<li>If prompted to authorize, click <strong>Authorize</strong> to continue. <img alt="Authorize" src="img/ac5b4e344d292b43.png"></li>
+<li>You should see this message:<pre><code language="language-bash" class="language-bash">Updated property [core/project].
+</code></pre>
+If you see a <code>WARNING</code> and are asked <code>Do you want to continue (Y/N)?</code>, then you have likely entered the project ID incorrectly. Press <code>N</code>, press <code>Enter</code>, double check your project ID and try to run the <code>gcloud config set project</code> command again.</li>
 </ol>
 
 

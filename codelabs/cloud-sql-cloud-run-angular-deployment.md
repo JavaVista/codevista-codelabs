@@ -46,62 +46,68 @@ Before you begin, ensure you have a [Google Account](https://accounts.google.com
 Duration: 0:10:00
 
 1. Sign-in to the [Google Cloud Console](https://console.cloud.google.com/).
-   ![Google Cloud Console screen](/codelabs/assets/GCC.jpg)
+   ![Google Cloud Console screen](assets/GCC.jpg)
 2. Enable [billing](https://console.cloud.google.com/billing) in the Cloud Console.
-   ![Billing screen](/codelabs/assets/Billing.jpg)
+   ![Billing screen](assets/Billing.jpg)
    - Completing this lab should cost less than $1 USD in Cloud resources.
    - You can follow the steps at the end of this lab to delete resources to avoid further charges.
    - New users are eligible for the [($300 USD Free Trial)](http://cloud.google.com/free).
-   ![Billing screen](/codelabs/assets/NewUserFreeTrial.jpg)
+   ![Billing screen](assets/NewUserFreeTrial.jpg)
 3. [Create a new project](https://console.cloud.google.com/projectcreate) or choose to reuse an existing project.
-   ![Create a new project screen](/codelabs/assets/CreateNewProject.jpg)
-   > *Create a new project screen*
+   ![Create a new project screen](assets/CreateNewProject.jpg)
+   > *Create a new project screen* 👆
 
-   ![Reuse a project screen](/codelabs/assets/ReuseProject.jpg)
-   > *Reuse an existing project*
+   ![Reuse a project screen](assets/ReuseProject.jpg)
+   > *Reuse an existing project* 👆
 
 ---
 
-## Backend
+## Open Cloud Shell Editor
+
 Duration: 0:20:00
 
-1.  **Create a Node.js application**
-    *   Create a new directory for your application.
-    *   Initialize a new Node.js project: `npm init -y`
-    *   Install the required dependencies: `npm install express @google-cloud/cloud-sql-connector`
+1. In your Project Welcome Screen click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell** terminal.
+    ![Cloud Shell Icon](assets/CloudShell.jpg)
+2. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
+3. In the Cloud Shell Editor IDE open a terminal.
+    - If the terminal doesn't appear on the bottom of the screen, open it:
+      - In the menu bar click **View** and click **Terminal**.
+      ![Open Terminal](assets/ViewTerminal.jpg)
 
-2.  **Create the server**
-    *   Create a file named `index.js` and add the following code:
+4. In the terminal, we are going to set your project Id:
+    - List all your project ids with
 
-    ```javascript
-    const express = require('express');
-    const { Connector } = require('@google-cloud/cloud-sql-connector');
+      ```bash
+      gcloud projects list | awk '/PROJECT_ID/{print $2}'
+      ```
+    - Set your project id with
 
-    const app = express();
-    const port = process.env.PORT || 8080;
+      ```bash
+      gcloud config set project PROJECT_ID
+      ```
+      Replace `PROJECT_ID` with your project id. For example:
 
-    const connector = new Connector();
-    const clientOpts = await connector.getOptions({
-      instanceConnectionName: process.env.INSTANCE_CONNECTION_NAME,
-      ipType: 'PUBLIC',
-    });
+      ```bash
+      gcloud config set project my-project-id
+      ```
 
-    const pool = new pg.Pool({
-      ...clientOpts,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
-    });
+    - Verify your project id with
 
-    app.get('/', async (req, res) => {
-      const { rows } = await pool.query('SELECT NOW()');
-      res.send(`Hello from the database! The time is ${rows[0].now}`);
-    });
+      ```bash
+      gcloud config get-value project
+      ```
 
-    app.listen(port, () => {
-      console.log(`Server listening on port ${port}`);
-    });
-    ```
+      This should return your project id.
+
+5. If prompted to authorize, click **Authorize** to continue.
+![Authorize](assets/authorize-cloud-shell_1920.png)
+6. You should see this message:
+
+   ```bash
+   Updated property [core/project].
+   ```
+
+   If you see a `WARNING` and are asked `Do you want to continue (Y/N)?`, then you have likely entered the project ID incorrectly. Press `N`, press `Enter`, double check your project ID and try to run the `gcloud config set project` command again.
 
 ---
 
