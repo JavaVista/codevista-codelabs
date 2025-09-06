@@ -137,7 +137,7 @@ Categories: web, angular, database, cloud
 ### **Option 1: Automatic Deployment**
 1. Push your changes to GitHub
 2. Go to Repository Settings → Pages
-3. Select "Deploy from a branch" → `main` → `/build`
+3. Select "Deploy from a branch" → `main` → `/docs`
 4. Your site will be live at `https://yourusername.github.io/codevista-codelabs`
 
 ### **Option 2: Manual Build**
