@@ -60,14 +60,14 @@
     
       <google-codelab-step label="Project Setup" duration="10">
         <ol type="1">
-<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>. <img alt="Google Cloud Console screen" src="img/83d27f448453d3ee.jpg"></li>
-<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console. <img alt="Billing screen" src="img/ddec140c6e2a0507.jpg"><ul>
+<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.<img alt="Google Cloud Console screen" src="img/83d27f448453d3ee.jpg"></li>
+<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console.<img alt="Billing screen" src="img/ddec140c6e2a0507.jpg"><ul>
 <li>Completing this lab should cost less than $1 USD in Cloud resources.</li>
 <li>You can follow the steps at the end of this lab to delete resources to avoid further charges.</li>
-<li>New users are eligible for the <a href="http://cloud.google.com/free" target="_blank">($300 USD Free Trial)</a>. <img alt="Billing screen" src="img/276e890835d2652e.jpg"></li>
+<li>New users are eligible for the <a href="http://cloud.google.com/free" target="_blank">($300 USD Free Trial)</a>.</li>
 </ul>
-</li>
-<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project. <img alt="Create a new project screen" src="img/8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img/cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
+<img alt="Billing screen" src="img/276e890835d2652e.jpg"></li>
+<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project.<img alt="Create a new project screen" src="img/8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img/cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
 </ol>
 
 
@@ -75,13 +75,13 @@
     
       <google-codelab-step label="Open Cloud Shell Editor" duration="20">
         <ol type="1">
-<li>In your Project Welcome Screen click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal. <img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
+<li>In your Project Welcome Screen click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal.<img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
 <li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.</li>
 <li>In the Cloud Shell Editor IDE open a terminal.<ul>
-<li>If the terminal doesn&#39;t appear on the bottom of the screen, open it: <ul>
-<li>In the menu bar click <strong>View</strong> and click <strong>Terminal</strong>. <img alt="Open Terminal" src="img/2226df4d309e004f.jpg"></li>
+<li>If the terminal doesn&#39;t appear on the bottom of the screen, open it:<ul>
+<li>In the menu bar click <strong>View</strong> and click <strong>Terminal</strong>.</li>
 </ul>
-</li>
+<img alt="Open Terminal" src="img/2226df4d309e004f.jpg"></li>
 </ul>
 </li>
 <li>In the terminal, we are going to set your project Id:<ul>
@@ -98,11 +98,71 @@ Replace <code>PROJECT_ID</code> with your project id. For example:<pre><code lan
 This should return your project id.</li>
 </ul>
 </li>
-<li>If prompted to authorize, click <strong>Authorize</strong> to continue. <img alt="Authorize" src="img/ac5b4e344d292b43.png"></li>
+<li>If prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/ac5b4e344d292b43.png"></li>
 <li>You should see this message:<pre><code language="language-bash" class="language-bash">Updated property [core/project].
 </code></pre>
 If you see a <code>WARNING</code> and are asked <code>Do you want to continue (Y/N)?</code>, then you have likely entered the project ID incorrectly. Press <code>N</code>, press <code>Enter</code>, double check your project ID and try to run the <code>gcloud config set project</code> command again.</li>
 </ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Enable Cloud APIs" duration="20">
+        <p>You need to enable the following <strong>Google Cloud APIs</strong>:</p>
+<ul>
+<li><strong>Cloud SQL Admin API</strong>: To manage Cloud SQL instances.</li>
+<li><strong>Cloud Run API</strong>: To deploy and manage containerized applications.</li>
+<li><strong>Artifact Registry API</strong>: To store and manage container images.</li>
+<li><strong>Cloud Build API</strong>: To build container images and other artifacts. Run the following command in the Cloud Shell terminal to enable these APIs:</li>
+</ul>
+<p>Run the following command in the <strong>Cloud Shell terminal</strong> to enable these APIs:</p>
+<pre><code language="language-bash" class="language-bash">gcloud services enable \
+  sqladmin.googleapis.com \
+  run.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com
+</code></pre>
+<p>If prompted to authorize, click <strong>Authorize</strong> to continue.</p>
+<p class="image-container"><img alt="Authorize" src="img/ac5b4e344d292b43.png"></p>
+<p>This command may take a few minutes to complete, and you should see messages indicating that each service has been enabled.</p>
+<p>Similar to this:</p>
+<pre><code language="language-bash" class="language-bash">Operation &#34;operations/acf.p2-73d90d00-47ee-447a-b600&#34; finished successfully.
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up a Service Account" duration="10">
+        <p>A <strong>service account</strong> in Google Cloud is a special type of Google account that an application or a virtual machine (VM) can use to make authorized API calls. Unlike user accounts, which represent a human user, service accounts represent an application or a service. The provided commands set up a service account with specific permissions to allow a <strong>Cloud Run</strong> application to securely connect to and interact with a Cloud SQL database.</p>
+<p>Create and configure a Google Cloud service account to be used by Cloud Run so that it has the correct permissions to connect to <strong>Cloud SQL</strong>.</p>
+<ol type="1">
+<li>Run the <code>gcloud iam service-accounts create</code> command as follows to create a new service account named <code>quickstart-service-account</code>:<pre><code language="language-bash" class="language-bash">gcloud iam service-accounts create quickstart-service-account \
+  --display-name=&#34;Quickstart Service Account&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Cloud SQL Client</strong> role to the service account. This role allows the service account to connect to Cloud SQL instances.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+--member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+--role=&#34;roles/cloudsql.client&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Cloud SQL Instance User</strong> role to the service account. This role allows the service account to perform operations on Cloud SQL instances.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+--member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+--role=&#34;roles/cloudsql.instanceUser&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Log Writer</strong> role to the service account. This role allows the service account to write logs to Google Cloud&#39;s logging service.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+--member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+--role=&#34;roles/logging.logWriter&#34;
+</code></pre>
+</li>
+</ol>
+<p>Why These Roles Are Needed</p>
+<ul>
+<li><strong>Cloud SQL Client</strong>: Enables the service account to connect to Cloud SQL instances.</li>
+<li><strong>Cloud SQL Instance User</strong>: Grants permissions to perform operations on Cloud SQL instances.</li>
+<li><strong>Log Writer</strong>: Allows the service account to write logs, which is essential for monitoring and debugging.</li>
+</ul>
+<p>These commands ensure that the service account has the necessary permissions to interact with Cloud SQL and log activities, which is essential for applications running on Cloud Run that need to access a Cloud SQL database.</p>
 
 
       </google-codelab-step>
