@@ -12,7 +12,7 @@ feedback_link: https://github.com/JavaVista/codevista-codelabs/issues
 
 Duration: 0:03:00
 
-In this codelab, you'll learn how to deploy a full-stack application with a database to [Google Cloud](https://cloud.google.com/). You'll use the [Cloud SQL Node.js connector](https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector) to connect a Node.js backend to a [Cloud SQL](https://cloud.google.com/sql) for [PostgreSQL](https://cloud.google.com/sql/postgresql) database, and an [Angular](https://angular.io/) frontend to interact with the backend.
+In this codelab, you'll learn how to deploy a full-stack application with a database to [Google Cloud](https://cloud.google.com/) [Cloud Run](https://cloud.google.com/run). Cloud Run is a fully managed platform that enables you to run your code directly on Google's scalable infrastructure. You'll use the [Cloud SQL Node.js connector](https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector) to connect a Node.js backend to a [Cloud SQL](https://cloud.google.com/sql) for [PostgreSQL](https://cloud.google.com/sql/postgresql) database, and an [Angular](https://angular.io/) frontend to interact with the backend.
 
 ### What you'll
 
@@ -34,9 +34,9 @@ In this codelab, you'll learn how to deploy a full-stack application with a data
 
 Duration: 0:03:00
 
-Before you begin, ensure you have a [Google Account](https://accounts.google.com/SignUp).
+Before you begin, ensure you have a **Google Account**.
 
-- If you do not already have a Google account, you must create a Google account.
+- If you do not already have a Google account, you must [create a Google Account](https://accounts.google.com/SignUp).
 - Use a personal account instead of a work or school account. Work and school accounts may have restrictions that prevent you from enabling the APIs needed for this lab.
 
 ---
@@ -118,7 +118,7 @@ Duration: 0:10:00
    Updated property [core/project].
    ```
 
-   If you see a `WARNING` and are asked `Do you want to continue (Y/N)?`, then you have likely entered the project ID incorrectly. Press `N`, press `Enter`, double check your project ID and try to run the `gcloud config set project` command again.
+   If you see a **WARNING** and are asked `Do you want to continue (Y/N)?`, then you have likely entered the project ID incorrectly. Press `N`, press `Enter`, double check your project ID and try to run the `gcloud config set project` command again.
 
 ---
 
@@ -271,9 +271,14 @@ Duration: 0:15:00
         --defaults
       ```
 
-      This command creates a minimal Angular project with server-side rendering (SSR) enabled.
+    - The `npx` command runs the Angular CLI without needing to install it.
+    - Type `n` when prompted with the following message:
 
-      (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser).
+      ```bash
+        Would you like to share pseudonymous usage data about this project with the Angular Team ...
+        ```
+
+        This command creates a minimal Angular project with server-side rendering (SSR) and server-side routing enabled. Server-side rendering (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser). Server-side routing ensures that navigation between pages is handled on the server, improving performance and enabling deep linking.
 
 2. Navigate to the project directory by changing the directory to `task-app`:
 
@@ -284,13 +289,12 @@ Duration: 0:15:00
 3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database.
 
     ```bash
-    npm install pg @google-cloud/cloud-sql-connector google-auth-library express
+    npm install pg @google-cloud/cloud-sql-connector google-auth-library
     ```
 
     - The `pg` library is used to interact with your PostgreSQL database.
     - The `@google-cloud/cloud-sql-connector` library provides a way to connect to Cloud SQL instances securely.
     - The `google-auth-library` is used for authenticating requests to Google Cloud services.
-    - The `express` library is used to set up a web server to handle HTTP requests.
 
 4. To enable TypeScript support for PostgreSQL in your Angular application, install the `@types/pg` package as a development dependency:
 
@@ -300,9 +304,9 @@ Duration: 0:15:00
 
 5. Set up the backend server. Open the `server.js` file in the **Cloud Shell Editor**.
 
-    TODO: add image!!!
+    *TODO: add image!!!*
 
-    note: not sure is this needed
+    Navigate to the `src` folder and open the `server.ts` file or open it using the following command:
 
     ```bash
     cloudshell edit src/server.ts
@@ -455,14 +459,10 @@ Duration: 0:15:00
 
 8. Save the file.
 
-9. Open the `app.component.ts` file in Cloud Shell Editor:
-
-    note: not sure if need this
+9. Navigate to the `src` folder and open the `app.component.ts` file or open it using the following command:
 
     ```bash
-
-    cloudshell edit src/app/app.component.ts
-    
+    cloudshell edit src/app.component.ts
     ```
 
 10. Delete the existing contents of the `app.component.ts` file.
@@ -588,12 +588,14 @@ Duration: 0:05:00
       --allow-unauthenticated
    ```
 
+    Cloud Run uses [**Cloud Native Buildpacks**](https://cloud.google.com/docs/buildpacks/overview) to build a Docker image from your source code. This process requires no Dockerfile and sets permissions via the service account, allowing unauthenticated access.
+
    - `--region=us-central1`: Specifies the region where the service will be deployed.
    - `--source=.`: Deploys the application from the current directory.
    - `--service-account`: Specifies the service account to use for the deployment. Use the `quickstart-service-account` created earlier.
    - `--allow-unauthenticated`: Allows public access to the application.
 
-2. If prompted, press Y and Enter to confirm that you would like to continue:
+2. If prompted, type `y` and `Enter` to confirm that you would like to continue:
 
    ```bash
    Do you want to continue (Y/n)? Y

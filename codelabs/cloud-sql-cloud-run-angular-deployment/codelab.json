@@ -8,7 +8,7 @@
   "duration": 65,
   "title": "Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run \u0026 Cloud SQL",
   "summary": "Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run \u0026 Cloud SQL",
-  "source": "codelabs/cloud-sql-cloud-run-angular-deployment.md",
+  "source": "cloud-sql-cloud-run-angular-deployment.md",
   "theme": "",
   "status": [
     "published"
