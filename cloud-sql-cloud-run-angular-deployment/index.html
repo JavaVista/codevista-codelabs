@@ -182,6 +182,16 @@ This command may take a few minutes to complete.<ul>
 <li>This command creates a managed PostgreSQL database instance in the <code>us-central1 region</code> with <code>4 CPUs</code> and <code>16GB of memory</code>.</li>
 <li>The <code>cloudsql.iam_authentication=on</code> flag enables IAM-based authentication for secure access.</li>
 </ul>
+Once the instance is created, you should see a message indicating that the operation was successful, similar to:<pre><code language="language-bash" class="language-bash">Creating Cloud SQL instance for POSTGRES_14...done.
+Created [https://sqladmin.googleapis.com/sql/v1beta4/projects/principal-fact-471601-n1/instances/quickstart-instance].
+NAME: quickstart-instance
+DATABASE_VERSION: POSTGRES_14
+LOCATION: us-central1-c
+TIER: db-custom-4-16384
+  PRIMARY_ADDRESS: 34.63.128.0
+  PRIVATE_ADDRESS: -
+  STATE: RUNNABLE
+</code></pre>
 </li>
 </ul>
 </li>
