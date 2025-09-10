@@ -218,7 +218,7 @@ TIER: db-custom-4-16384
 
       </google-codelab-step>
     
-      <google-codelab-step label="Prepare the Frontend Application" duration="15">
+      <google-codelab-step label="Prepare the Frontend Application" duration="5">
         <h2 is-upgraded>Create an Angular application</h2>
 <ol type="1">
 <li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@19.2.5 new task-app \
@@ -250,7 +250,17 @@ This command creates a minimal Angular project with server-side rendering (SSR) 
 <li>To enable TypeScript support for PostgreSQL in your Angular application, install the <code>@types/pg</code> package as a development dependency:<pre><code language="language-bash" class="language-bash">npm install --save-dev @types/pg
 </code></pre>
 </li>
-<li>Set up the backend server. Open the <code>server.js</code> file in the <strong>Cloud Shell Editor</strong>.<em>TODO: add image!!!</em>Navigate to the <code>src</code> folder and open the <code>server.ts</code> file or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/server.ts
+<li>Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled <strong>&#34;Deploy the application to Cloud Run&#34;</strong>, the <code>gcloud deploy</code> command uses <code>npm ci</code>, which requires the <code>package.json</code> and <code>package-lock.json</code> files to be perfectly in sync. Run the following command:<pre><code language="language-bash" class="language-bash">npm install
+</code></pre>
+This ensures that the lock file is updated and avoids build errors during deployment.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the Backend Server" duration="5">
+        <ol type="1">
+<li>Set up the backend server. Open the <code>server.js</code> file in the <strong>Cloud Shell Editor</strong>.Navigate to the <code>src</code> folder and open the <code>server.ts</code> file<img alt="Open server.ts" src="img/1975f6016dedd42f.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/server.ts
 </code></pre>
 </li>
 <li>Delete the existing contents of the <code>server.ts</code> file.</li>
@@ -396,7 +406,14 @@ export const reqHandler = createNodeRequestHandler(app);
 </ul>
 </li>
 <li>Save the file.</li>
-<li>Navigate to the <code>src</code> folder and open the <code>app.component.ts</code> file or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/app.component.ts
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Modify the Frontend" duration="5">
+        <ol type="1">
+<li>Navigate to the <code>src</code> folder and open the <code>app.component.ts</code> file<img alt="Open app.component.ts" src="img/a4bae4fa424f85d4.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/app.component.ts
 </code></pre>
 </li>
 <li>Delete the existing contents of the <code>app.component.ts</code> file.</li>

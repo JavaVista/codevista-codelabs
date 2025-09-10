@@ -267,7 +267,7 @@ Duration: 0:08:00
 
 ## Prepare the Frontend Application
 
-Duration: 0:15:00
+Duration: 0:05:00
 
 ### Create an Angular application
 
@@ -316,19 +316,35 @@ Duration: 0:15:00
     npm install --save-dev @types/pg
     ```
 
-5. Set up the backend server. Open the `server.js` file in the **Cloud Shell Editor**.
+5. Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled **"Deploy the application to Cloud Run"**, the `gcloud deploy` command uses `npm ci`, which requires the `package.json` and `package-lock.json` files to be perfectly in sync. Run the following command:
 
-    *TODO: add image!!!*
+   ```bash
+   npm install
+   ```
 
-    Navigate to the `src` folder and open the `server.ts` file or open it using the following command:
+   This ensures that the lock file is updated and avoids build errors during deployment.
+
+---
+
+## Set up the Backend Server
+
+Duration: 0:05:00
+
+1. Set up the backend server. Open the `server.js` file in the **Cloud Shell Editor**.
+
+    Navigate to the `src` folder and open the `server.ts` file
+
+    ![Open server.ts](assets/server.jpg)
+
+    or open it using the following command:
 
     ```bash
     cloudshell edit src/server.ts
     ```
 
-6. Delete the existing contents of the `server.ts` file.
+2. Delete the existing contents of the `server.ts` file.
 
-7. Copy the following code and paste it into the opened `server.ts` file:
+3. Copy the following code and paste it into the opened `server.ts` file:
 
     ```typescript
     import {
@@ -471,17 +487,27 @@ Duration: 0:15:00
     - The file sets up the Express server to handle API requests and to connect to the PostgreSQL database.
     - The `tableCreationIfDoesNotExist` function ensures that the tasks table is created if it doesn't already exist.
 
-8. Save the file.
+4. Save the file.
 
-9. Navigate to the `src` folder and open the `app.component.ts` file or open it using the following command:
+---
+
+## Modify the Frontend
+
+Duration: 0:05:00
+
+1. Navigate to the `src` folder and open the `app.component.ts` file
+
+    ![Open app.component.ts](assets/app.component.ts.jpg)
+
+    or open it using the following command:
 
     ```bash
     cloudshell edit src/app.component.ts
     ```
 
-10. Delete the existing contents of the `app.component.ts` file.
+2. Delete the existing contents of the `app.component.ts` file.
 
-11. Add the following code to the `app.component.ts` file:
+3. Add the following code to the `app.component.ts` file:
 
     ```typescript
     import { afterNextRender, Component, signal } from '@angular/core';
@@ -582,7 +608,7 @@ Duration: 0:15:00
     }
     ```
 
-12. Save the file.
+4. Save the file.
 
 The application is now ready to be deployed.
 
