@@ -70,18 +70,23 @@ Duration: 0:06:00
 
 Duration: 0:10:00
 
-1. In your Project Welcome Screen click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell** terminal.
+1. In your Project Welcome Screen or in your Dashboard click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell** terminal.
 
     ![Cloud Shell Icon](assets/CloudShell.jpg)
-2. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
 
-3. In the Cloud Shell Editor IDE open a terminal.
+2. When prompted to authorize, click **Authorize** to continue.
+
+    ![Authorize](assets/authorize-cloud-shell.png)
+
+3. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
+
+4. In the Cloud Shell Editor IDE open a terminal.
     - If the terminal doesn't appear on the bottom of the screen, open it:
       - In the menu bar click **View** and click **Terminal**.
 
       ![Open Terminal](assets/ViewTerminal.jpg)
 
-4. In the terminal, we are going to set your project Id:
+5. In the terminal, we are going to set your project Id:
     - List all your project ids with
 
       ```bash
@@ -100,18 +105,6 @@ Duration: 0:10:00
       gcloud config set project my-project-id
       ```
 
-    - Verify your project id with
-
-      ```bash
-      gcloud config get-value project
-      ```
-
-      This should return your project id.
-
-5. If prompted to authorize, click **Authorize** to continue.
-
-    ![Authorize](assets/authorize-cloud-shell_1920.png)
-
 6. You should see this message:
 
    ```bash
@@ -119,6 +112,15 @@ Duration: 0:10:00
    ```
 
    If you see a **WARNING** and are asked `Do you want to continue (Y/N)?`, then you have likely entered the project ID incorrectly. Press `N`, press `Enter`, double check your project ID and try to run the `gcloud config set project` command again.
+
+   - You can verify your project id with this command:
+
+      ```bash
+      gcloud config get-value project
+      ```
+
+      This should return your project id.
+
 
 ---
 
@@ -144,11 +146,7 @@ gcloud services enable \
   cloudbuild.googleapis.com
 ```
 
-If prompted to authorize, click **Authorize** to continue.
-
-![Authorize](assets/authorize-cloud-shell_1920.png)
-
-This command may take a few minutes to complete, and you should see messages indicating that each service has been enabled.
+After a few moments, you should see a message indicating that each service has been successfully enabled.
 
 Similar to this:
 

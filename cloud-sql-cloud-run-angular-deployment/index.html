@@ -75,7 +75,8 @@
     
       <google-codelab-step label="Open the Cloud Shell Editor" duration="10">
         <ol type="1">
-<li>In your Project Welcome Screen click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal.<img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
+<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal.<img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
+<li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/c55031097fff9b7b.png"></li>
 <li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.</li>
 <li>In the Cloud Shell Editor IDE open a terminal.<ul>
 <li>If the terminal doesn&#39;t appear on the bottom of the screen, open it:<ul>
@@ -93,15 +94,16 @@
 Replace <code>PROJECT_ID</code> with your project id. For example:<pre><code language="language-bash" class="language-bash">gcloud config set project my-project-id
 </code></pre>
 </li>
-<li>Verify your project id with<pre><code language="language-bash" class="language-bash">gcloud config get-value project
+</ul>
+</li>
+<li>You should see this message:<pre><code language="language-bash" class="language-bash">Updated property [core/project].
+</code></pre>
+If you see a <strong>WARNING</strong> and are asked <code>Do you want to continue (Y/N)?</code>, then you have likely entered the project ID incorrectly. Press <code>N</code>, press <code>Enter</code>, double check your project ID and try to run the <code>gcloud config set project</code> command again.<ul>
+<li>You can verify your project id with this command:<pre><code language="language-bash" class="language-bash">gcloud config get-value project
 </code></pre>
 This should return your project id.</li>
 </ul>
 </li>
-<li>If prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/ac5b4e344d292b43.png"></li>
-<li>You should see this message:<pre><code language="language-bash" class="language-bash">Updated property [core/project].
-</code></pre>
-If you see a <strong>WARNING</strong> and are asked <code>Do you want to continue (Y/N)?</code>, then you have likely entered the project ID incorrectly. Press <code>N</code>, press <code>Enter</code>, double check your project ID and try to run the <code>gcloud config set project</code> command again.</li>
 </ol>
 
 
@@ -122,9 +124,7 @@ If you see a <strong>WARNING</strong> and are asked <code>Do you want to continu
   artifactregistry.googleapis.com \
   cloudbuild.googleapis.com
 </code></pre>
-<p>If prompted to authorize, click <strong>Authorize</strong> to continue.</p>
-<p class="image-container"><img alt="Authorize" src="img/ac5b4e344d292b43.png"></p>
-<p>This command may take a few minutes to complete, and you should see messages indicating that each service has been enabled.</p>
+<p>After a few moments, you should see a message indicating that each service has been successfully enabled.</p>
 <p>Similar to this:</p>
 <pre><code language="language-bash" class="language-bash">Operation &#34;operations/acf.p2-73d90d00-47ee-447a-b600&#34; finished successfully.
 </code></pre>
