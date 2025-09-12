@@ -298,23 +298,18 @@ Duration: 0:05:00
     cd task-app
     ```
 
-3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database.
+3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
 
     ```bash
-    npm install pg @google-cloud/cloud-sql-connector google-auth-library
+    npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
     ```
 
     - The `pg` library is used to interact with your PostgreSQL database.
     - The `@google-cloud/cloud-sql-connector` library provides a way to connect to Cloud SQL instances securely.
     - The `google-auth-library` is used for authenticating requests to Google Cloud services.
+    - The `@types/pg` package adds TypeScript support for PostgreSQL.
 
-4. To enable TypeScript support for PostgreSQL in your Angular application, install the `@types/pg` package as a development dependency:
-
-    ```bash
-    npm install --save-dev @types/pg
-    ```
-
-5. Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled **"Deploy the application to Cloud Run"**, the `gcloud deploy` command uses `npm ci`, which requires the `package.json` and `package-lock.json` files to be perfectly in sync. Run the following command:
+4. TODO:(MAYBE REMOVE)Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled **"Deploy the application to Cloud Run"**, the `gcloud deploy` command uses `npm ci`, which requires the `package.json` and `package-lock.json` files to be perfectly in sync. Run the following command:
 
    ```bash
    npm install

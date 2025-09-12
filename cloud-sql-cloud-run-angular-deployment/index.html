@@ -239,18 +239,16 @@ This command creates a minimal Angular project with server-side rendering (SSR) 
 <li>Navigate to the project directory by changing the directory to <code>task-app</code>:<pre><code language="language-bash" class="language-bash">cd task-app
 </code></pre>
 </li>
-<li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database.<pre><code language="language-bash" class="language-bash">npm install pg @google-cloud/cloud-sql-connector google-auth-library
+<li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database, along with the TypeScript types for PostgreSQL as a development dependency:<pre><code language="language-bash" class="language-bash">npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
 </code></pre>
 <ul>
 <li>The <code>pg</code> library is used to interact with your PostgreSQL database.</li>
 <li>The <code>@google-cloud/cloud-sql-connector</code> library provides a way to connect to Cloud SQL instances securely.</li>
 <li>The <code>google-auth-library</code> is used for authenticating requests to Google Cloud services.</li>
+<li>The <code>@types/pg</code> package adds TypeScript support for PostgreSQL.</li>
 </ul>
 </li>
-<li>To enable TypeScript support for PostgreSQL in your Angular application, install the <code>@types/pg</code> package as a development dependency:<pre><code language="language-bash" class="language-bash">npm install --save-dev @types/pg
-</code></pre>
-</li>
-<li>Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled <strong>&#34;Deploy the application to Cloud Run&#34;</strong>, the <code>gcloud deploy</code> command uses <code>npm ci</code>, which requires the <code>package.json</code> and <code>package-lock.json</code> files to be perfectly in sync. Run the following command:<pre><code language="language-bash" class="language-bash">npm install
+<li>TODO:(MAYBE REMOVE)Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled <strong>&#34;Deploy the application to Cloud Run&#34;</strong>, the <code>gcloud deploy</code> command uses <code>npm ci</code>, which requires the <code>package.json</code> and <code>package-lock.json</code> files to be perfectly in sync. Run the following command:<pre><code language="language-bash" class="language-bash">npm install
 </code></pre>
 This ensures that the lock file is updated and avoids build errors during deployment.</li>
 </ol>
