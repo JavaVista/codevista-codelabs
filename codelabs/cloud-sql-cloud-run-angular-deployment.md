@@ -12,7 +12,7 @@ feedback_link: https://github.com/JavaVista/codevista-codelabs/issues
 
 Duration: 0:03:00
 
-In this codelab, you'll learn how to deploy a full-stack application with a database to [Google Cloud](https://cloud.google.com/) [Cloud Run](https://cloud.google.com/run). Cloud Run is a fully managed platform that enables you to run your code directly on Google's scalable infrastructure. You'll use the [Cloud SQL Node.js connector](https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector) to connect a Node.js backend to a [Cloud SQL](https://cloud.google.com/sql) for [PostgreSQL](https://cloud.google.com/sql/postgresql) database, and an [Angular](https://angular.io/) frontend to interact with the backend.
+In this codelab, you'll learn how to deploy a full-stack application with a database to [Google Cloud](https://cloud.google.com/) 👉 [Cloud Run](https://cloud.google.com/run). Cloud Run is a fully managed platform that enables you to run your code directly on Google's scalable infrastructure. You'll use the [Cloud SQL Node.js connector](https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector) to connect a Node.js backend to a [Cloud SQL](https://cloud.google.com/sql) for [PostgreSQL](https://cloud.google.com/sql/postgresql) database, and an [Angular](https://angular.io/) frontend to interact with the backend.
 
 ### What you'll
 
@@ -328,9 +328,7 @@ Duration: 0:05:00
 
 Duration: 0:05:00
 
-1. Set up the backend server. Open the `server.js` file in the **Cloud Shell Editor**.
-
-    Navigate to the `src` folder and open the `server.ts` file
+1. Set up the backend server. Open the `server.ts` file in the **Cloud Shell Editor**. Navigate to the `src` folder and locate the `server.ts` file.
 
     ![Open server.ts](assets/server.jpg)
 
@@ -633,7 +631,7 @@ Duration: 0:05:00
    - `--service-account`: Specifies the service account to use for the deployment. Use the `quickstart-service-account` created earlier.
    - `--allow-unauthenticated`: Allows public access to the application.
 
-2. If prompted, type `y` and `Enter` to confirm that you would like to continue:
+2. When prompted, type `y` and `Enter` to confirm that you would like to continue:
 
    ```bash
    Do you want to continue (Y/n)? Y
