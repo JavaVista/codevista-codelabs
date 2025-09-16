@@ -4,8 +4,8 @@ Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating an
 
 ## ✨ Features
 
-
 ### 📚 **Content Management**
+
 - **Markdown-Based**: Write codelabs in simple Markdown format
 - **Auto-Generation**: Converts Markdown to beautiful, interactive HTML
 - **Categorized**: Organize tutorials by technology, difficulty, or topic
@@ -14,6 +14,7 @@ Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating an
 ## 🚀 Quick Start
 
 ### 1. **Clone & Setup**
+
 ```bash
 git clone <your-repo>
 cd codevista-codelabs
@@ -21,9 +22,11 @@ npm install
 ```
 
 ### 2. **Run Locally**
+
 ```bash
 npm run serve
 ```
+
 Visit `http://localhost:8000` to see your codelabs site!
 
 ## 🔧 Development
@@ -36,12 +39,14 @@ Visit `http://localhost:8000` to see your codelabs site!
 | `npm run deploy` | Builds for production and copies to `docs/` for GitHub Pages deployment |
 
 **Notes:**
+
 - `serve` is for development (watches files, rebuilds automatically)
 - `build` creates the optimized production version
 - `serve:dist` helps verify the final output
 - `deploy` prepares for GitHub Pages (copies build to `docs/`)
 
 ### 3. **Add Your First Codelab**
+
 ```bash
 # Create a new codelab markdown file
 touch codelabs/my-first-tutorial.md
@@ -55,11 +60,13 @@ claat export codelabs/my-first-tutorial.md
 CodeVista uses **CLaaT** (Command Line Apps Authoring Tool) - Google's tool for generating interactive HTML tutorials from Markdown or Google Docs.
 
 📖 **Documentation Links:**
+
 - [CLaaT README](https://github.com/googlecodelabs/tools/blob/main/claat/README.md) - Learn about all CLaaT features and commands
 - [Format Guide](https://github.com/googlecodelabs/tools/blob/main/FORMAT-GUIDE.md) - Complete guide on supported syntax and metadata
 - [Setup & Usage](https://github.com/googlecodelabs/tools/blob/main/README.md) - How to install and use CLaaT
 
 ### **Option 1: Create from Markdown**
+
 Create `.md` files in the `codelabs/` directory:
 
 ```markdown
@@ -81,6 +88,7 @@ Let's start building...
 ```
 
 ### **Generate HTML**
+
 ```bash
 claat export codelabs/my-awesome-tutorial.md
 ```
@@ -98,6 +106,7 @@ Prefer writing in Google Docs? That's also fully supported!
    - Document ID: `1E6XMcdTexh5O8JwGy42SY3Ehzi8gOfUGiqTiUX6N04o`
 
 3. **Export to HTML**:
+
    ```bash
    claat export <your_document_id>
    ```
@@ -105,6 +114,7 @@ Prefer writing in Google Docs? That's also fully supported!
    This downloads and generates your codelab as interactive HTML files.
 
 ### **Update the Site**
+
 ```bash
 npm run build
 ```
@@ -114,11 +124,14 @@ Your new codelab will appear on the main page, automatically categorized and sty
 ## 🎨 Customization
 
 ### **Update Branding**
+
 - Replace `app/images/codevista-logo.png` with your logo
 - Edit `app/views/default/view.json` to update site title and description
 
 ### **Modify Colors**
+
 Colors are defined in `app/styles/_variables.scss`:
+
 ```scss
 // Primary brand colors
 $light-primary: #1976D2;    // Calming blue
@@ -127,7 +140,9 @@ $light-accent: #FF6D00;     // Vibrant orange
 ```
 
 ### **Add Categories**
+
 Categories are automatically extracted from your codelab metadata. Simply add them to your Markdown:
+
 ```markdown
 Categories: web, angular, database, cloud
 ```
@@ -135,12 +150,14 @@ Categories: web, angular, database, cloud
 ## 🌐 Deploy to GitHub Pages
 
 ### **Option 1: Automatic Deployment**
+
 1. Push your changes to GitHub
 2. Go to Repository Settings → Pages
 3. Select "Deploy from a branch" → `main` → `/docs`
 4. Your site will be live at `https://yourusername.github.io/codevista-codelabs`
 
 ### **Option 2: Manual Build**
+
 ```bash
 # Build for production
 npm run build
@@ -150,7 +167,7 @@ npm run build
 
 ## 📁 Project Structure
 
-```
+```bash
 codevista-codelabs/
 ├── 📝 codelabs/                    # Your tutorial source files (.md or export results)
 │   └── cloud-sql-cloud-run-angular-deployment.md  # Example codelab
@@ -185,17 +202,17 @@ Use this as a template for creating your own tutorials!
 ## 💡 Pro Tips
 
 ### **Writing Great Codelabs**
+
 - Start each step with a clear objective
 - Use code blocks with syntax highlighting
 - Include screenshots and diagrams
 - Test your instructions on a fresh environment
 - Keep steps focused and actionable
 
-
 ## 🆘 Need Help?
 
-
 ### **Troubleshooting**
+
 - **Site not updating?** Run `npm run build` to regenerate
 - **Styles not working?** Check the browser console for errors
 - **Codelab not appearing?** Ensure the `.md` file has proper metadata

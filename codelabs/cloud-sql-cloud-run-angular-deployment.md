@@ -66,27 +66,19 @@ Duration: 0:06:00
 
 ---
 
-## Open the Cloud Shell Editor
+## Open the Cloud Shell
 
 Duration: 0:10:00
 
-1. In your Project Welcome Screen or in your Dashboard click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell** terminal.
+1. In your Project Welcome Screen or in your Dashboard click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell Terminal**.
 
-    ![Cloud Shell Icon](assets/CloudShell.jpg)
+    ![Cloud Shell Icon](assets/cloud-shell.jpg)
 
 2. When prompted to authorize, click **Authorize** to continue.
 
     ![Authorize](assets/authorize-cloud-shell.png)
 
-3. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
-
-4. In the Cloud Shell Editor IDE open a terminal.
-    - If the terminal doesn't appear on the bottom of the screen, open it:
-      - In the menu bar click **View** and click **Terminal**.
-
-      ![Open Terminal](assets/ViewTerminal.jpg)
-
-5. In the terminal, we are going to set your project Id:
+3. In the terminal, we are going to set your project Id:
     - List all your project ids with
 
       ```bash
@@ -105,7 +97,7 @@ Duration: 0:10:00
       gcloud config set project my-project-id
       ```
 
-6. You should see this message:
+4. You should see this message:
 
    ```bash
    Updated property [core/project].
@@ -120,7 +112,6 @@ Duration: 0:10:00
       ```
 
       This should return your project id.
-
 
 ---
 
@@ -292,13 +283,7 @@ Duration: 0:05:00
 
         This command creates a minimal Angular project with server-side rendering (SSR) and server-side routing enabled. Server-side rendering (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser). Server-side routing ensures that navigation between pages is handled on the server, improving performance and enabling deep linking.
 
-2. Navigate to the project directory by changing the directory to `task-app`:
-
-    ```bash
-    cd task-app
-    ```
-
-3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
+2. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
 
     ```bash
     npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
@@ -309,13 +294,16 @@ Duration: 0:05:00
     - The `google-auth-library` is used for authenticating requests to Google Cloud services.
     - The `@types/pg` package adds TypeScript support for PostgreSQL.
 
-4. TODO:(MAYBE REMOVE)Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled **"Deploy the application to Cloud Run"**, the `gcloud deploy` command uses `npm ci`, which requires the `package.json` and `package-lock.json` files to be perfectly in sync. Run the following command:
+3. Navigate to the project directory by changing the directory to `task-app`:
 
-   ```bash
-   npm install
-   ```
+    ```bash
+    cd task-app
+    ```
 
-   This ensures that the lock file is updated and avoids build errors during deployment.
+4. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
+
+    This is where you will modify the backend server and frontend application in the next steps.
+    ![Cloud Shell Editor](assets/cloud-shell-editor.jpg) ***TODO: Add image!!!***
 
 ---
 

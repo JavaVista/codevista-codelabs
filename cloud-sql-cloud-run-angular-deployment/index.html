@@ -73,18 +73,10 @@
 
       </google-codelab-step>
     
-      <google-codelab-step label="Open the Cloud Shell Editor" duration="10">
+      <google-codelab-step label="Open the Cloud Shell" duration="10">
         <ol type="1">
-<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal.<img alt="Cloud Shell Icon" src="img/9d7aa84cee79d32f.jpg"></li>
+<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell</strong> terminal.<img alt="Cloud Shell Icon" src="img/9250e4492061e154.jpg"></li>
 <li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/c55031097fff9b7b.png"></li>
-<li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.</li>
-<li>In the Cloud Shell Editor IDE open a terminal.<ul>
-<li>If the terminal doesn&#39;t appear on the bottom of the screen, open it:<ul>
-<li>In the menu bar click <strong>View</strong> and click <strong>Terminal</strong>.</li>
-</ul>
-<img alt="Open Terminal" src="img/2226df4d309e004f.jpg"></li>
-</ul>
-</li>
 <li>In the terminal, we are going to set your project Id:<ul>
 <li>List all your project ids with<pre><code language="language-bash" class="language-bash">gcloud projects list | awk &#39;/PROJECT_ID/{print $2}&#39;
 </code></pre>
@@ -236,9 +228,6 @@ TIER: db-custom-4-16384
 This command creates a minimal Angular project with server-side rendering (SSR) and server-side routing enabled. Server-side rendering (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser). Server-side routing ensures that navigation between pages is handled on the server, improving performance and enabling deep linking.</li>
 </ul>
 </li>
-<li>Navigate to the project directory by changing the directory to <code>task-app</code>:<pre><code language="language-bash" class="language-bash">cd task-app
-</code></pre>
-</li>
 <li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database, along with the TypeScript types for PostgreSQL as a development dependency:<pre><code language="language-bash" class="language-bash">npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
 </code></pre>
 <ul>
@@ -248,9 +237,10 @@ This command creates a minimal Angular project with server-side rendering (SSR) 
 <li>The <code>@types/pg</code> package adds TypeScript support for PostgreSQL.</li>
 </ul>
 </li>
-<li>TODO:(MAYBE REMOVE)Regenerate the lock file to ensure a successful deployment to Cloud Run. On the next page, titled <strong>&#34;Deploy the application to Cloud Run&#34;</strong>, the <code>gcloud deploy</code> command uses <code>npm ci</code>, which requires the <code>package.json</code> and <code>package-lock.json</code> files to be perfectly in sync. Run the following command:<pre><code language="language-bash" class="language-bash">npm install
+<li>Navigate to the project directory by changing the directory to <code>task-app</code>:<pre><code language="language-bash" class="language-bash">cd task-app
 </code></pre>
-This ensures that the lock file is updated and avoids build errors during deployment.</li>
+</li>
+<li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.This is where you will modify the backend server and frontend application in the next steps.</li>
 </ol>
 
 
