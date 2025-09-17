@@ -283,7 +283,13 @@ Duration: 0:05:00
 
         This command creates a minimal Angular project with server-side rendering (SSR) and server-side routing enabled. Server-side rendering (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser). Server-side routing ensures that navigation between pages is handled on the server, improving performance and enabling deep linking.
 
-2. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
+2. Navigate to the project directory by changing the directory to `task-app`:
+
+    ```bash
+    cd task-app
+    ```
+
+3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
 
     ```bash
     npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
@@ -294,16 +300,10 @@ Duration: 0:05:00
     - The `google-auth-library` is used for authenticating requests to Google Cloud services.
     - The `@types/pg` package adds TypeScript support for PostgreSQL.
 
-3. Navigate to the project directory by changing the directory to `task-app`:
-
-    ```bash
-    cd task-app
-    ```
-
 4. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
 
+    ![Cloud Shell Editor](assets/cloud-shell-editor.jpg)
     This is where you will modify the backend server and frontend application in the next steps.
-    ![Cloud Shell Editor](assets/cloud-shell-editor.jpg) ***TODO: Add image!!!***
 
 ---
 

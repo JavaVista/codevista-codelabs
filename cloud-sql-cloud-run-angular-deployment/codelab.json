@@ -3,7 +3,7 @@
   "format": "html",
   "prefix": "https://storage.googleapis.com",
   "mainga": "UA-49880327-14",
-  "updated": "2025-09-15T21:26:26-04:00",
+  "updated": "2025-09-16T20:29:38-04:00",
   "id": "cloud-sql-cloud-run-angular-deployment",
   "duration": 65,
   "title": "Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run \u0026 Cloud SQL",
