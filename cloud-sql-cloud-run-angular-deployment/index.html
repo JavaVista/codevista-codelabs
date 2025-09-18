@@ -75,7 +75,7 @@
     
       <google-codelab-step label="Open the Cloud Shell" duration="10">
         <ol type="1">
-<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon </strong><img alt="Cloud Shell Icon" src="img/b6c917c2c0a7166e.png"> to open the <strong>Cloud Shell Terminal</strong>.<img alt="Cloud Shell Icon" src="img/9250e4492061e154.jpg"></li>
+<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon</strong> to open the <strong>Cloud Shell Terminal</strong>.<img alt="Cloud Shell Icon" src="img/9250e4492061e154.jpg"></li>
 <li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/c55031097fff9b7b.png"></li>
 <li>In the terminal, we are going to set your project Id:<ul>
 <li>List all your project ids with<pre><code language="language-bash" class="language-bash">gcloud projects list | awk &#39;/PROJECT_ID/{print $2}&#39;
@@ -213,7 +213,7 @@ TIER: db-custom-4-16384
       <google-codelab-step label="Prepare the Frontend Application" duration="5">
         <h2 is-upgraded>Create an Angular application</h2>
 <ol type="1">
-<li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@19.2.5 new task-app \
+<li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@19.2.6 new task-app \
     --minimal \
     --inline-template \
     --inline-style \
@@ -231,7 +231,10 @@ This command creates a minimal Angular project with server-side rendering (SSR) 
 <li>Navigate to the project directory by changing the directory to <code>task-app</code>:<pre><code language="language-bash" class="language-bash">cd task-app
 </code></pre>
 </li>
-<li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database, along with the TypeScript types for PostgreSQL as a development dependency:<pre><code language="language-bash" class="language-bash">npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
+<li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database, along with the TypeScript types for PostgreSQL as a development dependency:<pre><code language="language-bash" class="language-bash">npm install pg \
+@google-cloud/cloud-sql-connector \
+google-auth-library \
+@types/pg --save-dev
 </code></pre>
 <ul>
 <li>The <code>pg</code> library is used to interact with your PostgreSQL database.</li>
@@ -240,7 +243,7 @@ This command creates a minimal Angular project with server-side rendering (SSR) 
 <li>The <code>@types/pg</code> package adds TypeScript support for PostgreSQL.</li>
 </ul>
 </li>
-<li>In the Cloud Shell screen click <strong>Open Editor </strong><img alt="Open Editor" src="img/893ca235b297f060.png"> to open the <strong>Cloud Shell Editor</strong>.<img alt="Cloud Shell Editor" src="img/b0b15e146ec87ed5.jpg"> This is where you will modify the backend server and frontend application in the next steps.</li>
+<li>In the Cloud Shell screen click <strong>Open Editor</strong> to open the <strong>Cloud Shell Editor</strong>.<img alt="Cloud Shell Editor" src="img/b0b15e146ec87ed5.jpg"> This is where you will modify the backend server and frontend application in the next steps.</li>
 </ol>
 
 
@@ -511,7 +514,10 @@ export class AppComponent {
       </google-codelab-step>
     
       <google-codelab-step label="Deploy the application to Cloud Run" duration="5">
-        <ol type="1">
+        <p>Click <strong>Open Terminal</strong> to open the <strong>Cloud Shell terminal</strong> and ensure you are in the <code>task-app</code> directory. If you are not, navigate to it using:</p>
+<pre><code language="language-bash" class="language-bash">cd ~/task-app
+</code></pre>
+<ol type="1">
 <li>Run the command below to deploy your application to <strong>Cloud Run</strong>.<pre><code language="language-bash" class="language-bash">gcloud run deploy to-do-tracker \
    --region=us-central1 \
    --source=. \
@@ -566,7 +572,7 @@ After a few minutes, the application should provide a URL for you to visit.</li>
 </li>
 <li><strong>Warning!</strong> This next action is can&#39;t be undone! If you would like to delete everything on your Cloud Shell to free up space, you can <a href="https://cloud.google.com/shell/docs/resetting-cloud-shell" target="_blank"><strong>delete your whole home directory</strong></a>. Be careful that everything you want to keep is saved somewhere else.<pre><code language="language-bash" class="language-bash">sudo rm -rf $HOME
 </code></pre>
-</li>
+In the Cloud Shell menu, click <strong>More</strong> &gt; <strong>Restart</strong>. Confirm the restart to provision a new VM and reset the home directory to its default state.</li>
 </ol>
 <h2 is-upgraded>Resources 📚</h2>
 <ul>

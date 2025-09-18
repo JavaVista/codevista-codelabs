@@ -70,7 +70,7 @@ Duration: 0:06:00
 
 Duration: 0:10:00
 
-1. In your Project Welcome Screen or in your Dashboard click the **Cloud Shell Icon** ![Cloud Shell Icon](assets/cloudShellicon.png) to open the **Cloud Shell Terminal**.
+1. In your Project Welcome Screen or in your Dashboard click the **Cloud Shell Icon** to open the **Cloud Shell Terminal**.
 
     ![Cloud Shell Icon](assets/cloud-shell.jpg)
 
@@ -265,7 +265,7 @@ Duration: 0:05:00
     To create a new Angular project named `task-app`, use the command:
 
     ```bash
-    npx --yes @angular/cli@19.2.5 new task-app \
+    npx --yes @angular/cli@19.2.6 new task-app \
         --minimal \
         --inline-template \
         --inline-style \
@@ -292,7 +292,10 @@ Duration: 0:05:00
 3. Install **node-postgres** and the **Cloud SQL Node.js connector** libraries to interact with the **PostgreSQL** database, along with the TypeScript types for PostgreSQL as a development dependency:
 
     ```bash
-    npm install pg @google-cloud/cloud-sql-connector google-auth-library @types/pg --save-dev
+    npm install pg \
+    @google-cloud/cloud-sql-connector \
+    google-auth-library \
+    @types/pg --save-dev
     ```
 
     - The `pg` library is used to interact with your PostgreSQL database.
@@ -300,7 +303,7 @@ Duration: 0:05:00
     - The `google-auth-library` is used for authenticating requests to Google Cloud services.
     - The `@types/pg` package adds TypeScript support for PostgreSQL.
 
-4. In the Cloud Shell screen click **Open Editor** ![Open Editor](assets/OpenEditor.png) to open the **Cloud Shell Editor**.
+4. In the Cloud Shell screen click **Open Editor** to open the **Cloud Shell Editor**.
 
     ![Cloud Shell Editor](assets/cloud-shell-editor.jpg)
     This is where you will modify the backend server and frontend application in the next steps.
@@ -597,6 +600,12 @@ The application is now ready to be deployed.
 
 Duration: 0:05:00
 
+Click **Open Terminal** to open the **Cloud Shell terminal** and ensure you are in the `task-app` directory. If you are not, navigate to it using:
+
+```bash
+cd ~/task-app
+```
+
 1. Run the command below to deploy your application to **Cloud Run**.
 
    ```bash
@@ -685,6 +694,8 @@ If you prefer not to delete the entire project, you can delete individual resour
     ```bash
     sudo rm -rf $HOME
     ```
+
+    In the Cloud Shell menu, click **More** > **Restart**. Confirm the restart to provision a new VM and reset the home directory to its default state.
 
 ### Resources 📚
 
