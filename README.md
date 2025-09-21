@@ -31,12 +31,12 @@ Visit `http://localhost:8000` to see your codelabs site!
 
 ## 🔧 Development
 
-| Command | Description |
-|---------|-------------|
-| `npm run serve` | Builds and serves the site locally with live-reloading at `http://localhost:8000` |
-| `npm run build` | Creates production build in `dist/` directory (minified, optimized) |
-| `npm run serve:dist` | Serves the production build from `dist/` for final testing |
-| `npm run deploy` | Builds for production and copies to `docs/` for GitHub Pages deployment |
+| Command              | Description                                                                       |
+| -------------------- | --------------------------------------------------------------------------------- |
+| `npm run serve`      | Builds and serves the site locally with live-reloading at `http://localhost:8000` |
+| `npm run build`      | Creates production build in `dist/` directory (minified, optimized)               |
+| `npm run serve:dist` | Serves the production build from `dist/` for final testing                        |
+| `npm run deploy`     | Builds for production and copies to `docs/` for GitHub Pages deployment           |
 
 **Notes:**
 
@@ -120,6 +120,24 @@ npm run build
 ```
 
 Your new codelab will appear on the main page, automatically categorized and styled.
+
+### Update Existing Codelabs
+
+If you make changes to an existing codelab, you need to regenerate the static files using the `claat` tool. Follow these steps:
+
+1. Run the following command to update the codelab:
+
+   ```bash
+   claat update codelabs/<your-awesome-existing-tutorial>.md
+   ```
+
+2. Serve the updated codelab locally to preview the changes:
+
+   ```bash
+   claat serve
+   ```
+
+3. Commit the updated files to the repository.
 
 ## 🎨 Customization
 

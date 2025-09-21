@@ -60,14 +60,14 @@
     
       <google-codelab-step label="Project Setup" duration="6">
         <ol type="1">
-<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.<img alt="Google Cloud Console screen" src="img/83d27f448453d3ee.jpg"></li>
-<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console.<img alt="Billing screen" src="img/ddec140c6e2a0507.jpg"><ul>
+<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.<img alt="Google Cloud Console screen" src="img\\83d27f448453d3ee.jpg"></li>
+<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console.<img alt="Billing screen" src="img\\ddec140c6e2a0507.jpg"><ul>
 <li>Completing this lab should cost less than $1 USD in Cloud resources.</li>
 <li>You can follow the steps at the end of this lab to delete resources to avoid further charges.</li>
 <li>New users are eligible for the <a href="http://cloud.google.com/free" target="_blank">($300 USD Free Trial)</a>.</li>
 </ul>
-<img alt="Billing screen" src="img/276e890835d2652e.jpg"></li>
-<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project.<img alt="Create a new project screen" src="img/8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img/cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
+<img alt="Billing screen" src="img\\276e890835d2652e.jpg"></li>
+<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project.<img alt="Create a new project screen" src="img\\8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img\\cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
 </ol>
 
 
@@ -75,8 +75,8 @@
     
       <google-codelab-step label="Open the Cloud Shell" duration="10">
         <ol type="1">
-<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon</strong> to open the <strong>Cloud Shell Terminal</strong>.<img alt="Cloud Shell Icon" src="img/9250e4492061e154.jpg"></li>
-<li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/c55031097fff9b7b.png"></li>
+<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon</strong> to open the <strong>Cloud Shell Terminal</strong>.<img alt="Cloud Shell Icon" src="img\\9250e4492061e154.jpg"></li>
+<li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img\\c55031097fff9b7b.png"></li>
 <li>In the terminal, we are going to set your project Id:<ul>
 <li>List all your project ids with<pre><code language="language-bash" class="language-bash">gcloud projects list | awk &#39;/PROJECT_ID/{print $2}&#39;
 </code></pre>
@@ -188,11 +188,11 @@ TIER: db-custom-4-16384
 </ul>
 </li>
 <li><strong>Create a Cloud SQL database</strong><ul>
-<li>Run the following command to create a new database within the instance:<pre><code language="language-bash" class="language-bash">gcloud sql databases create quickstart-db \
+<li>Run the following command to create a new database within the instance:<pre><code language="language-bash" class="language-bash">gcloud sql databases create quickstart_db \
     --instance=quickstart-instance
 </code></pre>
 <ul>
-<li>This command creates a database named <code>quickstart-db</code> in the <code>quickstart-instance</code>.</li>
+<li>This command creates a database named <code>quickstart_db</code> in the <code>quickstart-instance</code>.</li>
 </ul>
 </li>
 </ul>
@@ -213,7 +213,7 @@ TIER: db-custom-4-16384
       <google-codelab-step label="Prepare the Frontend Application" duration="5">
         <h2 is-upgraded>Create an Angular application</h2>
 <ol type="1">
-<li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@19.2.6 new task-app \
+<li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@19.2.5 new task-app \
     --minimal \
     --inline-template \
     --inline-style \
@@ -240,10 +240,12 @@ google-auth-library \
 <li>The <code>pg</code> library is used to interact with your PostgreSQL database.</li>
 <li>The <code>@google-cloud/cloud-sql-connector</code> library provides a way to connect to Cloud SQL instances securely.</li>
 <li>The <code>google-auth-library</code> is used for authenticating requests to Google Cloud services.</li>
-<li>The <code>@types/pg</code> package adds TypeScript support for PostgreSQL.</li>
 </ul>
 </li>
-<li>In the Cloud Shell screen click <strong>Open Editor</strong> to open the <strong>Cloud Shell Editor</strong>.<img alt="Cloud Shell Editor" src="img/b0b15e146ec87ed5.jpg"> This is where you will modify the backend server and frontend application in the next steps.</li>
+<li>To enable TypeScript support for PostgreSQL in your Angular application, install the <code>@types/pg</code> package as a development dependency:<pre><code language="language-bash" class="language-bash">npm install --save-dev @types/pg
+</code></pre>
+</li>
+<li>In the Cloud Shell screen click <strong>Open Editor</strong> to open the <strong>Cloud Shell Editor</strong>.<img alt="Cloud Shell Editor" src="img\\b0b15e146ec87ed5.jpg"> This is where you will modify the backend server and frontend application in the next steps.</li>
 </ol>
 
 
@@ -251,7 +253,7 @@ google-auth-library \
     
       <google-codelab-step label="Set up the Backend Server" duration="5">
         <ol type="1">
-<li>Set up the backend server. Open the <code>server.ts</code> file in the <strong>Cloud Shell Editor</strong>. Navigate to the <code>src</code> folder and locate the <code>server.ts</code> file.<img alt="Open server.ts" src="img/1975f6016dedd42f.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/server.ts
+<li>Set up the backend server. Open the <code>server.ts</code> file in the <strong>Cloud Shell Editor</strong>. Navigate to the <code>src</code> folder and locate the <code>server.ts</code> file.<img alt="Open server.ts" src="img\\1975f6016dedd42f.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/server.ts
 </code></pre>
 </li>
 <li>Delete the existing contents of the <code>server.ts</code> file.</li>
@@ -404,7 +406,7 @@ export const reqHandler = createNodeRequestHandler(app);
     
       <google-codelab-step label="Modify the Frontend" duration="5">
         <ol type="1">
-<li>Navigate to the <code>src</code> folder and open the <code>app.component.ts</code> file<img alt="Open app.component.ts" src="img/a4bae4fa424f85d4.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/app.component.ts
+<li>Navigate to the <code>src</code> folder and open the <code>app.component.ts</code> file<img alt="Open app.component.ts" src="img\\a4bae4fa424f85d4.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/app.component.ts
 </code></pre>
 </li>
 <li>Delete the existing contents of the <code>app.component.ts</code> file.</li>
