@@ -274,12 +274,11 @@ Duration: 0:05:00
     To create a new Angular project named `task-app`, use the command:
 
    ```bash
-   npx --yes @angular/cli@19.2.5 new task-app \
+   npx --yes @angular/cli@20 new task-app \
        --minimal \
        --inline-template \
        --inline-style \
        --ssr \
-       --server-routing \
        --defaults
    ```
 
@@ -304,8 +303,7 @@ Duration: 0:05:00
    ```bash
    npm install pg \
    @google-cloud/cloud-sql-connector \
-   google-auth-library \
-   @types/pg --save-dev
+   google-auth-library
    ```
 
    - The `pg` library is used to interact with your PostgreSQL database.
@@ -344,141 +342,144 @@ Duration: 0:05:00
 3. Copy the following code and paste it into the opened `server.ts` file:
 
    ```typescript
-   import {
-     AngularNodeAppEngine,
-     createNodeRequestHandler,
-     isMainModule,
-     writeResponseToNodeResponse,
-   } from '@angular/ssr/node';
-   import express from 'express';
-   import { dirname, resolve } from 'node:path';
-   import { fileURLToPath } from 'node:url';
-   import pg from 'pg';
-   import { AuthTypes, Connector } from '@google-cloud/cloud-sql-connector';
-   import { GoogleAuth } from 'google-auth-library';
-   const auth = new GoogleAuth();
-   
-   const { Pool } = pg;
-   
-   type Task = {
-     id: string;
-     title: string;
-     status: 'IN_PROGRESS' | 'COMPLETE';
-     createdAt: number;
-   };
-   
-   const projectId = await auth.getProjectId();
-   
-   const connector = new Connector();
-   const clientOpts = await connector.getOptions({
-     instanceConnectionName: `${projectId}:us-central1:quickstart-instance`,
-     authType: AuthTypes.IAM,
-   });
-   
-   const pool = new Pool({
-     ...clientOpts,
-     user: `quickstart-service-account@${projectId}.iam`,
-     database: 'quickstart_db',
-   });
-   
-   const tableCreationIfDoesNotExist = async () => {
-     await pool.query(`CREATE TABLE IF NOT EXISTS tasks (
-         id SERIAL NOT NULL,
-         created_at timestamp NOT NULL,
-         status VARCHAR(255) NOT NULL default 'IN_PROGRESS',
-         title VARCHAR(1024) NOT NULL,
-         PRIMARY KEY (id)
-       );`);
-   }
-   
-   const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-   const browserDistFolder = resolve(serverDistFolder, '../browser');
-   
-   const app = express();
-   const angularApp = new AngularNodeAppEngine();
-   
-   app.use(express.json());
-   
-   app.get('/api/tasks', async (req, res) => {
-     await tableCreationIfDoesNotExist();
-     const { rows } = await pool.query(`SELECT id, created_at, status, title FROM tasks ORDER BY created_at DESC LIMIT 100`);
-     res.send(rows);
-   });
-   
-   app.post('/api/tasks', async (req, res) => {
-     const newTaskTitle = req.body.title;
-     if (!newTaskTitle) {
-       res.status(400).send("Title is required");
-       return;
-     }
-     await tableCreationIfDoesNotExist();
-     await pool.query(`INSERT INTO tasks(created_at, status, title) VALUES(NOW(), 'IN_PROGRESS', $1)`, [newTaskTitle]);
-     res.sendStatus(200);
-   });
-   
-   app.put('/api/tasks', async (req, res) => {
-     const task: Task = req.body;
-     if (!task || !task.id || !task.title || !task.status) {
-       res.status(400).send("Invalid task data");
-       return;
-     }
-     await tableCreationIfDoesNotExist();
-     await pool.query(
-       `UPDATE tasks SET status = $1, title = $2 WHERE id = $3`,
-       [task.status, task.title, task.id]
-     );
-     res.sendStatus(200);
-   });
-   
-   app.delete('/api/tasks', async (req, res) => {
-     const task: Task = req.body;
-     if (!task || !task.id) {
-       res.status(400).send("Task ID is required");
-       return;
-     }
-     await tableCreationIfDoesNotExist();
-     await pool.query(`DELETE FROM tasks WHERE id = $1`, [task.id]);
-     res.sendStatus(200);
-   });
-   
-   /**
-   * Serve static files from /browser
-   */
-   app.use(
-     express.static(browserDistFolder, {
-       maxAge: '1y',
-       index: false,
-       redirect: false,
-     }),
-   );
-   
-   /**
-   * Handle all other requests by rendering the Angular application.
-   */
-   app.use('/**', (req, res, next) => {
-     angularApp
-       .handle(req)
-       .then((response) =>
-         response ? writeResponseToNodeResponse(response, res) : next(),
-       )
-       .catch(next);
-   });
-   
-   /**
-   * Start the server if this module is the main entry point.
-   * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
-   */
-   if (isMainModule(import.meta.url)) {
-     const port = process.env['PORT'] || 4000;
-     app.listen(port, () => {
-       console.log(`Node Express server listening on http://localhost:${port}`);
-     });
-   }
-   
-   /**
-   * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
-   */
-   export const reqHandler = createNodeRequestHandler(app);
+
+    import {
+      AngularNodeAppEngine,
+      createNodeRequestHandler,
+      isMainModule,
+      writeResponseToNodeResponse,
+    } from '@angular/ssr/node';
+    import express from 'express';
+    import { dirname, resolve } from 'node:path';
+    import { fileURLToPath } from 'node:url';
+    import pg from 'pg';
+    import { AuthTypes, Connector } from '@google-cloud/cloud-sql-connector';
+    import { GoogleAuth } from 'google-auth-library';
+
+    const auth = new GoogleAuth();
+
+    const { Pool } = pg;
+
+    type Task = {
+      id: string;
+      title: string;
+      status: 'IN_PROGRESS' | 'COMPLETE';
+      createdAt: number;
+    };
+
+    const projectId = await auth.getProjectId();
+
+    const connector = new Connector();
+    const clientOpts = await connector.getOptions({
+      instanceConnectionName: `${projectId}:us-central1:quickstart-instance`,
+      authType: AuthTypes.IAM,
+    });
+
+    const pool = new Pool({
+      ...clientOpts,
+      user: `quickstart-service-account@${projectId}.iam`,
+      database: 'quickstart_db',
+    });
+
+    const tableCreationIfDoesNotExist = async () => {
+      await pool.query(`CREATE TABLE IF NOT EXISTS tasks (
+          id SERIAL NOT NULL,
+          created_at timestamp NOT NULL,
+          status VARCHAR(255) NOT NULL default 'IN_PROGRESS',
+          title VARCHAR(1024) NOT NULL,
+          PRIMARY KEY (id)
+        );`);
+    }
+
+    const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+    const browserDistFolder = resolve(serverDistFolder, '../browser');
+
+    const app = express();
+    const angularApp = new AngularNodeAppEngine();
+
+    app.use(express.json());
+
+    app.get('/api/tasks', async (req, res) => {
+      await tableCreationIfDoesNotExist();
+      const { rows } = await pool.query(`SELECT id, created_at, status, title FROM tasks ORDER BY created_at DESC LIMIT 100`);
+      res.send(rows);
+    });
+
+    app.post('/api/tasks', async (req, res) => {
+      const newTaskTitle = req.body.title;
+      if (!newTaskTitle) {
+        res.status(400).send("Title is required");
+        return;
+      }
+      await tableCreationIfDoesNotExist();
+      await pool.query(`INSERT INTO tasks(created_at, status, title) VALUES(NOW(), 'IN_PROGRESS', $1)`, [newTaskTitle]);
+      res.sendStatus(200);
+    });
+
+    app.put('/api/tasks', async (req, res) => {
+      const task: Task = req.body;
+      if (!task || !task.id || !task.title || !task.status) {
+        res.status(400).send("Invalid task data");
+        return;
+      }
+      await tableCreationIfDoesNotExist();
+      await pool.query(
+        `UPDATE tasks SET status = $1, title = $2 WHERE id = $3`,
+        [task.status, task.title, task.id]
+      );
+      res.sendStatus(200);
+    });
+
+    app.delete('/api/tasks', async (req, res) => {
+      const task: Task = req.body;
+      if (!task || !task.id) {
+        res.status(400).send("Task ID is required");
+        return;
+      }
+      await tableCreationIfDoesNotExist();
+      await pool.query(`DELETE FROM tasks WHERE id = $1`, [task.id]);
+      res.sendStatus(200);
+    });
+
+    /**
+    * Serve static files from /browser
+    */
+    app.use(
+      express.static(browserDistFolder, {
+        maxAge: '1y',
+        index: false,
+        redirect: false,
+      }),
+    );
+
+    /**
+    * Handle all other requests by rendering the Angular application.
+    */
+    app.use(/./, (req, res, next) => {
+      angularApp
+        .handle(req)
+        .then((response) =>
+          response ? writeResponseToNodeResponse(response, res) : next(),
+        )
+        .catch(next);
+    });
+
+    /**
+    * Start the server if this module is the main entry point.
+    * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+    */
+    if (isMainModule(import.meta.url)) {
+      const port = process.env['PORT'] || 4000;
+      app.listen(port, () => {
+        console.log(`Node Express server listening on http://localhost:${port}`);
+      });
+    }
+
+    /**
+    * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+    */
+    export const reqHandler = createNodeRequestHandler(app);
+
    ```
 
    - The file sets up the Express server to handle API requests and to connect to the PostgreSQL database.
@@ -492,117 +493,186 @@ Duration: 0:05:00
 
 Duration: 0:05:00
 
-1. Navigate to the `src` folder and open the `app.component.ts` file
+1. Navigate to the `src` folder and open the `app.ts` file
 
-    ![Open app.component.ts](assets/app.component.ts.jpg)
+    ![Open app.ts](assets/app.component.ts.jpg)
 
     or open it using the following command:
 
    ```bash
-   cloudshell edit src/app.component.ts
+   cloudshell edit src/app.ts
    ```
 
-2. Delete the existing contents of the `app.component.ts` file.
+2. Delete the existing contents of the `app.ts` file.
 
-3. Add the following code to the `app.component.ts` file:
+3. Add the following code to the `app.ts` file:
 
    ```typescript
-   import { afterNextRender, Component, signal } from '@angular/core';
-   import { FormsModule } from '@angular/forms';
-   
-   type Task = {
-     id: string;
-     title: string;
-     status: 'IN_PROGRESS' | 'COMPLETE';
-     createdAt: number;
-   };
-   
-   @Component({
-     selector: 'app-root',
-     standalone: true,
-     imports: [FormsModule],
-     template: `
-       <section>
-         <input
-           type="text"
-           placeholder="New Task Title"
-           [(ngModel)]="newTaskTitle"
-           class="text-black border-2 p-2 m-2 rounded"
-         />
-         <button (click)="addTask()">Add new task</button>
-         <table>
-           <tbody>
-             @for (task of tasks(); track task) {
-               @let isComplete = task.status === 'COMPLETE';
-               <tr>
-                 <td>
-                   <input
-                     (click)="updateTask(task, { status: isComplete ? 'IN_PROGRESS' : 'COMPLETE' })"
-                     type="checkbox"
-                     [checked]="isComplete"
-                   />
-                 </td>
-                 <td>{{ task.title }}</td>
-                 <td>{{ task.status }}</td>
-                 <td>
-                   <button (click)="deleteTask(task)">Delete</button>
-                 </td>
-               </tr>
-             }
-           </tbody>
-         </table>
-       </section>
-     `,
-     styles: '',
-   })
-   export class AppComponent {
-     newTaskTitle = '';
-     tasks = signal<Task[]>([]);
-   
-     constructor() {
-       afterNextRender({
-         earlyRead: () => this.getTasks()
-       });
-     }
-   
-     async getTasks() {
-       const response = await fetch(`/api/tasks`);
-       const tasks = await response.json();
-       this.tasks.set(tasks);
-     }
-   
-     async addTask() {
-       await fetch(`/api/tasks`, {
-         method: 'POST',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({
-           title: this.newTaskTitle,
-           status: 'IN_PROGRESS',
-           createdAt: Date.now(),
-         }),
-       });
-       this.newTaskTitle = '';
-       await this.getTasks();
-     }
-   
-     async updateTask(task: Task, newTaskValues: Partial<Task>) {
-       await fetch(`/api/tasks`, {
-         method: 'PUT',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify({ ...task, ...newTaskValues }),
-       });
-       await this.getTasks();
-     }
-   
-     async deleteTask(task: any) {
-       await fetch('/api/tasks', {
-         method: 'DELETE',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(task),
-       });
-       await this.getTasks();
-     }
-   }
+
+    import { afterNextRender, Component, signal } from '@angular/core';
+    import { FormsModule } from '@angular/forms';
+
+    type Task = {
+      id: string;
+      title: string;
+      status: 'IN_PROGRESS' | 'COMPLETE';
+      createdAt: number;
+    };
+
+    @Component({
+      selector: 'app-root',
+      imports: [FormsModule],
+      template: `
+        <main class="container">
+          <h1>{{ title() }}</h1>
+          <section class="task-input">
+          <input
+            type="text"
+            placeholder="New Task Title"
+            [(ngModel)]="newTaskTitle"
+            (keyup.enter)="addTask()"
+          />
+          <button (click)="addTask()">Add new task</button>
+          </section>
+          <table class="task-table">
+            <tbody>
+              @for (task of tasks(); track task) {
+                @let isComplete = task.status === 'COMPLETE';
+                <tr>
+                  <td>
+                    <input
+                      (click)="updateTask(task, { status: isComplete ? 'IN_PROGRESS' : 'COMPLETE' })"
+                      type="checkbox"
+                      [checked]="isComplete"
+                    />
+                  </td>
+                  <td class="task-title" [class.complete]="isComplete">{{ task.title }}</td>
+                  <td class="task-status">{{ task.status }}</td>
+                  <td>
+                    <button (click)="deleteTask(task)">Delete</button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </main>
+      `,
+      styles: [
+        `
+          :host {
+            display: block;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+              Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+              "Segoe UI Symbol";
+            background-color: #f0f2f5;
+            color: #333;
+            min-height: 100vh;
+          }
+          .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+          }
+          h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1a202c;
+            text-align: center;
+            margin-bottom: 2rem;
+          }
+          .task-input {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+          }
+          .task-input input {
+            flex-grow: 1;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e0;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+          }
+          .task-input button, .task-table button {
+            padding: 0.75rem 1.5rem;
+            background-color: #4299e1;
+            color: white;
+            border: none;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.2s;
+          }
+          .task-input button:hover, .task-table button:hover {
+            background-color: #3182ce;
+          }
+          .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          }
+          .task-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+          }
+          .task-title.complete {
+            text-decoration: line-through;
+            color: #a0aec0;
+          }
+        `,
+      ],
+    })
+    export class App {
+      newTaskTitle = '';
+      tasks = signal<Task[]>([]);
+      readonly title = signal('to-do-tracker');
+
+      constructor() {
+        afterNextRender({
+          earlyRead: () => this.getTasks()
+        });
+      }
+
+      async getTasks() {
+        const response = await fetch(`/api/tasks`);
+        const tasks = await response.json();
+        this.tasks.set(tasks);
+      }
+
+      async addTask() {
+        await fetch(`/api/tasks`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: this.newTaskTitle,
+            status: 'IN_PROGRESS',
+            createdAt: Date.now(),
+          }),
+        });
+        this.newTaskTitle = '';
+        await this.getTasks();
+      }
+
+      async updateTask(task: Task, newTaskValues: Partial<Task>) {
+        await fetch(`/api/tasks`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ ...task, ...newTaskValues }),
+        });
+        await this.getTasks();
+      }
+
+      async deleteTask(task: any) {
+        await fetch('/api/tasks', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(task),
+        });
+        await this.getTasks();
+      }
+    }
+
    ```
 
 4. Save the file.
