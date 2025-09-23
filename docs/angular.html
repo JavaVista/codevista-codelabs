@@ -1,0 +1,151 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="description" content="Angular specific coding tutorials">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="generator" content="Angular Tutorials">
+<meta name="application-name" content="Angular Tutorials">
+<link rel="canonical" href="/angular/">
+<link rel="preconnect" href="https://www.google-analytics.com">
+<script>
+window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments); }; ga.l = +new Date;
+    ga('create', 'UA-49880327-14', 'auto');
+    ga('send', 'pageview');
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+<title>Angular Tutorials</title>
+<link rel="stylesheet" href="/styles/main.css">
+<link rel="import" href="/elements/elements.html">
+<style is="custom-style">
+:root{--codevista-accent:#ff6d00;--codevista-accent-light:#ffb74d;--codevista-dark-bg:#121212;--codevista-dark-surface:#1e1e1e;--codevista-dark-text:#fff;--codevista-dark-text-secondary:#b0bec5;--codevista-primary:#1976d2;--codevista-primary-light:#42a5f5;--codevista-secondary:#388e3c;--codevista-secondary-light:#66bb6a;--paper-input-container-underline:{ display:none; } ;--paper-input-container-underline-focus:{ display:none; } ;--paper-tabs-selection-bar-color:currentcolor}.dropdown-filter{--paper-input-container:{ padding:8px; } }#mainToolbar{background:linear-gradient(135deg,var(--codevista-primary),var(--codevista-primary-light));box-shadow:0 2px 8px rgba(25,118,210,.3)}.logo-devs{border:2px solid hsla(0,0%,100%,.7);border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.15);display:block;height:48px;object-fit:cover;object-position:center;transition:box-shadow .3s ease,border-color .3s ease,-webkit-transform .3s ease;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease,-webkit-transform .3s ease;width:48px}.logo-devs:hover{-webkit-transform:scale(1.05);box-shadow:0 4px 10px rgba(0,0,0,.2);transform:scale(1.05)}body.dark-mode .logo-devs{border-color:hsla(0,0%,100%,.4)}#searchbar{-ms-flex:1;-ms-flex-align:center;-ms-flex-pack:center;-webkit-align-items:center;-webkit-flex:1;-webkit-justify-content:center;align-items:center;display:-webkit-flex;display:-ms-flexbox;display:flex;flex:1;justify-content:center;margin:0 24px;max-width:100%;min-width:300px}#searchbar paper-input-container{--paper-input-container:{ padding:14px 18px; border-radius:24px; border:2px solid hsla(0,0%,100%,0.2) ; transition:all 0.3s ease; width:100%; } ;--paper-input-container-focus:{ border-color:hsla(0,0%,100%,0.4) ; } ;--paper-input-container-input:{ color:white; font-size:16px; background:transparent; } ;--paper-input-container-label:{ color:hsla(0,0%,100%,0.7) ; } ;--paper-input-container-label-focus:{ color:hsla(0,0%,100%,0.9) ; } ;--paper-input-container-underline:{ display:none; } ;--paper-input-container-underline-focus:{ display:none; } ;border:2px solid hsla(0,0%,100%,.2);border-radius:24px;transition:all .3s ease;width:100%}#searchbar paper-input-container:hover{border-color:hsla(0,0%,100%,.3)}#searchbar paper-input-container:focus-within{-webkit-transform:scale(1.02);border-color:hsla(0,0%,100%,.4);transform:scale(1.02)}#searchbar input{background:transparent!important;border:none!important;color:#fff!important;font-size:16px;outline:none!important}#searchbar label{color:hsla(0,0%,100%,.7)!important}#searchbar paper-icon-button{color:hsla(0,0%,100%,.8)!important}body.dark-mode #searchbar paper-input-container{border-color:hsla(0,0%,100%,.1)}body.dark-mode #searchbar paper-input-container:hover{border-color:hsla(0,0%,100%,.15)}body.dark-mode #searchbar paper-input-container:focus-within{border-color:hsla(0,0%,100%,.25)}paper-button{border-radius:24px!important;font-weight:500;text-transform:none;transition:all .3s ease}paper-button.codevista-primary{background-color:var(--codevista-primary);color:#fff}paper-button.codevista-secondary{background-color:var(--codevista-secondary);color:#fff}paper-button.codevista-accent{background-color:var(--codevista-accent);color:#fff}.codelab-card paper-button{border-radius:24px!important}#dark-mode-toggle{color:#fff;transition:all .3s ease}#dark-mode-toggle:hover{background-color:hsla(0,0%,100%,.1);border-radius:50%}body.dark-mode{background-color:var(--codevista-dark-bg);color:var(--codevista-dark-text)}body.dark-mode #mainToolbar{background:linear-gradient(135deg,#0d47a1,#1565c0)}body.dark-mode #banner,body.dark-mode .codelab-card,body.dark-mode .paper-header{background-color:var(--codevista-dark-surface)}body.dark-mode .codelab-card{border:1px solid #333;color:var(--codevista-dark-text)}body.dark-mode .codelab-card:hover{background-color:#2a2a2a}body.dark-mode footer{background-color:var(--codevista-dark-surface);color:var(--codevista-dark-text)}body.dark-mode .footerbar{background-color:#0a0a0a;color:var(--codevista-dark-text-secondary)}#banner{background:linear-gradient(135deg,var(--codevista-primary),var(--codevista-secondary));color:#fff}.banner-title{color:#fff;font-size:2.5em;margin:0;text-shadow:0 2px 4px rgba(0,0,0,.3)}.banner-info{color:hsla(0,0%,100%,.9);font-size:1.1em;line-height:1.6}.banner-info a{border-bottom:1px solid var(--codevista-accent-light);color:var(--codevista-accent-light);text-decoration:none;transition:all .3s ease}.banner-info a:hover{border-bottom-color:var(--codevista-accent);color:var(--codevista-accent)}body.dark-mode #banner{background:linear-gradient(135deg,var(--codevista-dark-surface),rgba(30,30,30,.96));color:var(--codevista-dark-text)}body.dark-mode #footer,body.dark-mode .footerbar{background:var(--codevista-dark-surface);color:var(--codevista-dark-text-secondary)}
+</style>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#1976D2">
+<meta name="apple-mobile-web-app-title" content="Angular Tutorials">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/images/favicons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="194x194" href="/images/favicons/favicon-194x194.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/images/favicons/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/images/favicons/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/images/favicons/safari-pinned-tab.svg" color="#1976D2">
+<meta name="msapplication-TileColor" content="#1976D2">
+<meta name="msapplication-TileImage" content="/images/favicons/mstile-144x144.png">
+<meta name="theme-color" content="#1976D2">
+<meta name="og:type" property="og:type" content="website">
+<meta name="og:title" property="og:title" content="Angular Tutorials">
+<meta name="og:description" property="og:description" content="Angular specific coding tutorials">
+<meta name="og:url" property="og:url" content="/angular/">
+<meta name="og:site_name" property="og:site_name" content="Angular Tutorials">
+<meta name="og:determiner" property="og:determiner" content="the">
+<meta name="og:locale" property="og:locale" content="en_US">
+<meta name="og:image" property="og:image" content="/images/og-image.png">
+<meta name="og:image:url" property="og:image:url" content="/images/og-image.png">
+<meta name="og:image:type" property="og:image:type" content="image/png">
+<meta name="og:image:width" property="og:image:width" content="1200">
+<meta name="og:image:height" property="og:image:height" content="1200">
+<meta name="og:image:alt" property="og:image:alt" content="Angular Tutorials">
+<meta name="twitter:card" property="twitter:card" content="summary_large_image">
+<meta name="twitter:title" property="twitter:title" content="Angular Tutorials">
+<meta name="twitter:description" property="twitter:description" content="Angular specific coding tutorials">
+<meta name="twitter:image" property="twitter:image" content="/images/og-image.png">
+<meta name="twitter:url" property="twitter:url" content="/angular/">
+</head>
+<body id="app" is="body-bind" class="loading fullbleed view">
+<paper-header-panel id="main" mode="standard" main>
+<div id="mainToolbar" class="paper-header">
+<div class="site-width layout horizontal">
+<a href="/">
+<img src="/images/GoogleLogos/angular_gradient.png" class="logo-devs" alt="Angular Tutorials Logo">
+</a>
+<div id="searchbar">
+<paper-input-container no-label-float>
+<paper-icon-button prefix icon="search"></paper-icon-button>
+<label>Search</label>
+<input is="iron-input" bind-value="" on-keydown="onSearchKeyDown">
+</paper-input-container>
+</div>
+<paper-icon-button id="dark-mode-toggle" icon="invert-colors" title="Toggle dark mode" on-tap="toggleDarkMode"></paper-icon-button>
+</div>
+</div>
+<header id="banner" down>
+<div class="site-width">
+<div class="banner-description">
+<img id="logo" src="/images/GoogleLogos/angular_gradient.png" alt="Event logo">
+<div class="banner-meta">
+<h3>Angular Tutorials</h3>
+<p>Angular specific coding tutorials</p>
+</div>
+</div>
+</div>
+</header>
+<main>
+<div id="filters" class="site-width layout horizontal center justified">
+<div id="sortby">
+<paper-tabs selected="0" noink on-iron-activate="sortBy">
+<paper-tab>A-Z</paper-tab>
+<paper-tab>Recent</paper-tab>
+<paper-tab>Duration</paper-tab>
+</paper-tabs>
+</div>
+</div>
+<card-sorter id="cards" class="site-width">
+<a href="/codelabs/cloud-sql-cloud-run-angular-deployment/index.html?index=..%2F..angular" on-tap="navigate" class="codelab-card category-backend" data-category="backend,database,cloud,angular" data-title="Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run &amp; Cloud SQL" data-duration="65" data-updated="2025-09-22T22:03:20-04:00" data-tags="web" data-pin="">
+<div class="description">Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run &amp; Cloud SQL</div>
+<div class="card-duration">
+<span>65 min </span>
+<span>Updated Sep 23, 2025</span>
+</div>
+<div class="card-footer">
+<div class="category-icon backend-icon"></div>
+<paper-button class="backend-bg codevista-accent">Start</paper-button>
+</div>
+</a>
+</card-sorter>
+<div id="loading-placeholder" class="site-width">
+Loading CodeVista Labs, please wait...
+</div>
+</main>
+<footer id="footer">
+<div class="footer-wrapper site-width">
+<div class="link-list">
+<label>Connect</label>
+<ul>
+<li><a href="https://github.com/JavaVista" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+<li><a href="https://bsky.app/profile/code-vista.bsky.social" target="_blank" rel="noopener noreferrer">Bluesky</a></li>
+<li><a href="http://linkedin.com/in/technologic" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+</ul>
+</div>
+<div class="link-list">
+<label>Community</label>
+<ul>
+<li><a href="https://discord.gg/XRY5Qf4QjK" target="_blank" rel="noopener noreferrer">GDG Discord</a></li>
+<li><a href="https://googledevscentralflorida.com/" target="_blank" rel="noopener noreferrer">GDG Central Florida</a></li>
+<li><a href="https://devfestflorida.com/" target="_blank" rel="noopener noreferrer">DevFest Florida</a></li>
+</ul>
+</div>
+<div class="link-list">
+<label>Blogs</label>
+<ul>
+<li><a href="https://googledevscentralflorida.com/blog" target="_blank" rel="noopener noreferrer">GDG Central Florida Blog</a></li>
+<li><a href="https://googledevsflorida.blogspot.com/" target="_blank" rel="noopener noreferrer">Google Devs Florida Blog</a></li>
+<li><a href="https://devfestflorida.com/blog" target="_blank" rel="noopener noreferrer">Devfest Florida Blog</a></li>
+</ul>
+</div>
+</div>
+</footer>
+<div class="footerbar">
+<div class="site-width layout horizontal center justified">
+<span>
+Designed 🚀 by © 2025
+<a href="https://techno-logic.us/" target="_blank" rel="noopener noreferrer"> Javi</a>
+</span>
+</div>
+</div>
+</paper-header-panel>
+<script src="/bower_components/url-search-params-polyfill/build/url-search-params.js"></script>
+<script src="/scripts/app.js"></script>
+</body>
+</html>
