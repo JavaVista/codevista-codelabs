@@ -6,7 +6,7 @@ Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating an
 
 ### 📚 **Content Management**
 
-- **Markdown-Based**: Write codelabs in simple Markdown format
+- **Markdown-Based**: Write codelabs in simple Markdown format or Google Docs
 - **Auto-Generation**: Converts Markdown to beautiful, interactive HTML
 - **Categorized**: Organize tutorials by technology, difficulty, or topic
 - **GitHub Pages Ready**: Deploy anywhere with static hosting
