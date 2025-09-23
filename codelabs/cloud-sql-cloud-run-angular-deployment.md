@@ -318,7 +318,7 @@ Duration: 0:05:00
 
 5. In the Cloud Shell screen click **Open Editor** to open the **Cloud Shell Editor**.
 
-    ![Cloud Shell Editor](assets/cloud-shell-editor.jpg)
+    ![Cloud Shell Editor](assets/CloudShellEditor.jpg)
     This is where you will modify the backend server and frontend application in the next steps.
 
 ---
@@ -495,7 +495,7 @@ Duration: 0:05:00
 
 1. Navigate to the `src` folder and open the `app.ts` file
 
-    ![Open app.ts](assets/app.component.ts.jpg)
+    ![Open app.ts](assets/app.jpg)
 
     or open it using the following command:
 
@@ -716,7 +716,9 @@ cd ~/task-app
 
     After a few minutes, the application should provide a URL for you to visit.
 
-Navigate to the URL to see your application in action. Every time you visit the URL or refresh the page, you will see the task app.
+Navigate to the Service URL to see your application in action. Every time you visit the URL or refresh the page, you will see the task app. 👇
+
+![to-do-tracker app](assets/to-do-tracker.jpg)
 
 ### Test the application
 

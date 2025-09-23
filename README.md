@@ -128,7 +128,7 @@ If you make changes to an existing codelab, you need to regenerate the static fi
 1. Run the following command to update the codelab:
 
    ```bash
-   claat update codelabs/<your-awesome-existing-tutorial>.md
+   claat update .
    ```
 
 2. Serve the updated codelab locally to preview the changes:
