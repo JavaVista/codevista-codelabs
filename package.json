@@ -4,7 +4,7 @@
     "build": "gulp dist",
     "serve": "gulp serve",
     "serve:dist": "gulp serve:dist",
-    "deploy": "gulp dist && mkdir -p docs && cp -R dist/* docs/"
+    "deploy": "gulp dist --baseUrl=/codevista-codelabs && mkdir -p docs && cp -R dist/* docs/"
   },
   "devDependencies": {
     "autoprefixer": "^9.3.1",
