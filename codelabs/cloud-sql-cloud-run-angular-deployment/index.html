@@ -1,0 +1,672 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run &amp; Cloud SQL</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="cloud-sql-cloud-run-angular-deployment"
+                  title="Code to Cloud: Deploying a Full-Stack Angular App with Cloud Run &amp; Cloud SQL"
+                  environment="web"
+                  feedback-link="https://github.com/JavaVista/codevista-codelabs/issues">
+    
+      <google-codelab-step label="Overview" duration="3">
+        <p>In this codelab, you&#39;ll learn how to deploy a full-stack application with a database to <a href="https://cloud.google.com/" target="_blank">Google Cloud</a> 👉 <a href="https://cloud.google.com/run" target="_blank">Cloud Run</a>. Cloud Run is a fully managed platform that enables you to run your code directly on Google&#39;s scalable infrastructure. You&#39;ll use the <a href="https://github.com/GoogleCloudPlatform/cloud-sql-nodejs-connector" target="_blank">Cloud SQL Node.js connector</a> to connect a Node.js backend to a <a href="https://cloud.google.com/sql" target="_blank">Cloud SQL</a> for <a href="https://cloud.google.com/sql/postgresql" target="_blank">PostgreSQL</a> database, and an <a href="https://angular.io/" target="_blank">Angular</a> frontend to interact with the backend.</p>
+<h2 is-upgraded>What you&#39;ll</h2>
+<ul>
+<li>How to create a Cloud SQL instance</li>
+<li>How to connect to Cloud SQL from a Node.js application</li>
+<li>How to create a simple Angular frontend</li>
+<li>How to deploy the application to Google Cloud</li>
+</ul>
+<h2 is-upgraded>What you&#39;ll need</h2>
+<ul>
+<li>Laptop + Google account (free trial OK), and billing enabled</li>
+<li>A Google Cloud project</li>
+<li>A browser, such as Chrome or Firefox</li>
+<li>Familiarity with Node.js, Angular, and SQL</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prerequisites" duration="3">
+        <p>Before you begin, ensure you have a <strong>Google Account</strong>.</p>
+<ul>
+<li>If you do not already have a Google account, you must <a href="https://accounts.google.com/SignUp" target="_blank">create a Google Account</a>.</li>
+<li>Use a personal account instead of a work or school account. Work and school accounts may have restrictions that prevent you from enabling the APIs needed for this lab.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Project Setup" duration="6">
+        <ol type="1">
+<li>Sign-in to the <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>.<img alt="Google Cloud Console screen" src="img/83d27f448453d3ee.jpg"></li>
+<li>Enable <a href="https://console.cloud.google.com/billing" target="_blank">billing</a> in the Cloud Console.<img alt="Billing screen" src="img/ddec140c6e2a0507.jpg"><ul>
+<li>Completing this lab should cost less than $1 USD in Cloud resources.</li>
+<li>You can follow the steps at the end of this lab to delete resources to avoid further charges.</li>
+<li>New users are eligible for the <a href="http://cloud.google.com/free" target="_blank">($300 USD Free Trial)</a>.</li>
+</ul>
+<img alt="Billing screen" src="img/276e890835d2652e.jpg"></li>
+<li><a href="https://console.cloud.google.com/projectcreate" target="_blank">Create a new project</a> or choose to reuse an existing project.<img alt="Create a new project screen" src="img/8ab08c648b602b8c.jpg"><em>Create a new project screen</em> 👆<img alt="Reuse a project screen" src="img/cdb77e6f54db31b2.jpg"><em>Reuse an existing project</em> 👆</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Open the Cloud Shell" duration="10">
+        <ol type="1">
+<li>In your Project Welcome Screen or in your Dashboard click the <strong>Cloud Shell Icon</strong> to open the <strong>Cloud Shell Terminal</strong>.<img alt="Cloud Shell Icon" src="img/9250e4492061e154.jpg"></li>
+<li>When prompted to authorize, click <strong>Authorize</strong> to continue.<img alt="Authorize" src="img/c55031097fff9b7b.png"></li>
+<li>In the terminal, we are going to set your project Id:<ul>
+<li>List all your project ids with<pre><code language="language-bash" class="language-bash">gcloud projects list | awk &#39;/PROJECT_ID/{print $2}&#39;
+</code></pre>
+</li>
+<li>Set your project id with<pre><code language="language-bash" class="language-bash">gcloud config set project PROJECT_ID
+</code></pre>
+Replace <code>PROJECT_ID</code> with your project id. For example:<pre><code language="language-bash" class="language-bash">gcloud config set project my-project-id
+</code></pre>
+</li>
+</ul>
+</li>
+<li>You should see this message:<pre><code language="language-bash" class="language-bash">Updated property [core/project].
+</code></pre>
+If you see a <strong>WARNING</strong> and are asked <code>Do you want to continue (Y/N)?</code>, then you have likely entered the project ID incorrectly. Press <code>N</code>, press <code>Enter</code>, double check your project ID and try to run the <code>gcloud config set project</code> command again.<ul>
+<li>You can verify your project id with this command:<pre><code language="language-bash" class="language-bash">gcloud config get-value project
+</code></pre>
+This should return your project id.</li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Enable Cloud APIs" duration="7">
+        <p>You need to enable the following <strong>Google Cloud APIs</strong>:</p>
+<ul>
+<li><strong>Cloud SQL Admin API</strong>: To manage Cloud SQL instances.</li>
+<li><strong>Cloud Run API</strong>: To deploy and manage containerized applications.</li>
+<li><strong>Artifact Registry API</strong>: To store and manage container images.</li>
+<li><strong>Cloud Build API</strong>: To build container images and other artifacts. Run the following command in the Cloud Shell terminal to enable these APIs:</li>
+</ul>
+<p>Run the following command in the <strong>Cloud Shell terminal</strong> to enable these APIs:</p>
+<pre><code language="language-bash" class="language-bash">gcloud services enable \
+  sqladmin.googleapis.com \
+  run.googleapis.com \
+  artifactregistry.googleapis.com \
+  cloudbuild.googleapis.com
+</code></pre>
+<p>After a few moments, you should see a message indicating that each service has been successfully enabled.</p>
+<p>Similar to this:</p>
+<pre><code language="language-bash" class="language-bash">Operation &#34;operations/acf.p2-73d90d00-47ee-447a-b600&#34; finished successfully.
+</code></pre>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up a Service Account" duration="5">
+        <p>A <strong>service account</strong> in Google Cloud is a special type of Google account that an application or a virtual machine (VM) can use to make authorized API calls. Unlike user accounts, which represent a human user, service accounts represent an application or a service. The provided commands set up a service account with specific permissions to allow a <strong>Cloud Run</strong> application to securely connect to and interact with a Cloud SQL database.</p>
+<p>Create and configure a Google Cloud service account to be used by Cloud Run so that it has the correct permissions to connect to <strong>Cloud SQL</strong>.</p>
+<ol type="1">
+<li>Run the <code>gcloud iam service-accounts create</code> command as follows to create a new service account named <code>quickstart-service-account</code>:<pre><code language="language-bash" class="language-bash">gcloud iam service-accounts create quickstart-service-account \
+    --display-name=&#34;Quickstart Service Account&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Cloud SQL Client</strong> role to the service account. This role allows the service account to connect to Cloud SQL instances.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+    --member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+    --role=&#34;roles/cloudsql.client&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Cloud SQL Instance User</strong> role to the service account. This role allows the service account to perform operations on Cloud SQL instances.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+    --member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+    --role=&#34;roles/cloudsql.instanceUser&#34;
+</code></pre>
+</li>
+<li>Assign the <strong>Log Writer</strong> role to the service account. This role allows the service account to write logs to Google Cloud&#39;s logging service.<pre><code language="language-bash" class="language-bash">gcloud projects add-iam-policy-binding ${GOOGLE_CLOUD_PROJECT} \
+    --member=&#34;serviceAccount:quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+    --role=&#34;roles/logging.logWriter&#34;
+</code></pre>
+</li>
+</ol>
+<p>Why These Roles Are Needed</p>
+<ul>
+<li><strong>Cloud SQL Client</strong>: Enables the service account to connect to Cloud SQL instances.</li>
+<li><strong>Cloud SQL Instance User</strong>: Grants permissions to perform operations on Cloud SQL instances.</li>
+<li><strong>Log Writer</strong>: Allows the service account to write logs, which is essential for monitoring and debugging.</li>
+</ul>
+<p>These commands ensure that the service account has the necessary permissions to interact with Cloud SQL and log activities, which is essential for applications running on Cloud Run that need to access a Cloud SQL database.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Create a Cloud SQL Database" duration="8">
+        <h2 is-upgraded>Setup a PostgreSQL Database</h2>
+<ol type="1">
+<li><strong>Create the Cloud SQL instance</strong><ul>
+<li>Run the following command to create a new <strong>Cloud SQL instance</strong>:<pre><code language="language-bash" class="language-bash">gcloud sql instances create quickstart-instance \
+    --database-version=POSTGRES_14 \
+    --cpu=4 \
+    --memory=16GB \
+    --region=us-central1 \
+    --database-flags=cloudsql.iam_authentication=on
+</code></pre>
+This command may take a few minutes to complete.<ul>
+<li>This command creates a managed PostgreSQL database instance in the <code>us-central1 region</code> with <code>4 CPUs</code> and <code>16GB of memory</code>.</li>
+<li>The <code>cloudsql.iam_authentication=on</code> flag enables IAM-based authentication for secure access.</li>
+</ul>
+Once the instance is created, you should see a message indicating that the operation was successful, similar to:<pre><code language="language-bash" class="language-bash">Creating Cloud SQL instance for POSTGRES_14...done.
+Created [https://sqladmin.googleapis.com/sql/v1beta4/projects/principal-fact-471601-n1/instances/quickstart-instance].
+NAME: quickstart-instance
+DATABASE_VERSION: POSTGRES_14
+LOCATION: us-central1-c
+TIER: db-custom-4-16384
+  PRIMARY_ADDRESS: 34.63.128.0
+  PRIVATE_ADDRESS: -
+  STATE: RUNNABLE
+</code></pre>
+</li>
+</ul>
+</li>
+<li><strong>Create a Cloud SQL database</strong><ul>
+<li>Run the following command to create a new database within the instance:<pre><code language="language-bash" class="language-bash">gcloud sql databases create quickstart_db \
+    --instance=quickstart-instance
+</code></pre>
+<ul>
+<li>This command creates a database named <code>quickstart_db</code> in the <code>quickstart-instance</code>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Create a PostgreSQL database user</strong><ul>
+<li>Run the following command to create a new user for the service account you created earlier to access the database:<pre><code language="language-bash" class="language-bash">gcloud sql users create quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam \
+    --instance=quickstart-instance \
+    --type=cloud_iam_service_account
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Prepare the Frontend Application" duration="5">
+        <h2 is-upgraded>Create an Angular application</h2>
+<ol type="1">
+<li>Prepare an <strong>Angular application</strong> that responds to HTTP requests.To create a new Angular project named <code>task-app</code>, use the command:<pre><code language="language-bash" class="language-bash">npx --yes @angular/cli@20 new task-app \
+    --minimal \
+    --inline-template \
+    --inline-style \
+    --ssr \
+    --defaults
+</code></pre>
+<ul>
+<li>The <code>npx</code> command runs the Angular CLI without needing to install it.</li>
+<li>Type <code>n</code> when prompted with the following message:<pre><code language="language-bash" class="language-bash">  Would you like to share pseudonymous usage data about this project with the Angular Team ...
+</code></pre>
+This command creates a minimal Angular project with server-side rendering (SSR) and server-side routing enabled. Server-side rendering (SSR) is a technique where the server generates a fully rendered HTML page for each user request and sends it to the browser. This provides faster initial load times and better search engine optimization (SEO) compared to client-side rendering (where JavaScript builds the page in the browser). Server-side routing ensures that navigation between pages is handled on the server, improving performance and enabling deep linking.</li>
+</ul>
+</li>
+<li>Navigate to the project directory by changing the directory to <code>task-app</code>:<pre><code language="language-bash" class="language-bash">cd task-app
+</code></pre>
+</li>
+<li>Install <strong>node-postgres</strong> and the <strong>Cloud SQL Node.js connector</strong> libraries to interact with the <strong>PostgreSQL</strong> database, along with the TypeScript types for PostgreSQL as a development dependency:<pre><code language="language-bash" class="language-bash">npm install pg \
+@google-cloud/cloud-sql-connector \
+google-auth-library
+</code></pre>
+<ul>
+<li>The <code>pg</code> library is used to interact with your PostgreSQL database.</li>
+<li>The <code>@google-cloud/cloud-sql-connector</code> library provides a way to connect to Cloud SQL instances securely.</li>
+<li>The <code>google-auth-library</code> is used for authenticating requests to Google Cloud services.</li>
+</ul>
+</li>
+<li>To enable TypeScript support for PostgreSQL in your Angular application, install the <code>@types/pg</code> package as a development dependency:<pre><code language="language-bash" class="language-bash">npm install --save-dev @types/pg
+</code></pre>
+</li>
+<li>In the Cloud Shell screen click <strong>Open Editor</strong> to open the <strong>Cloud Shell Editor</strong>.<img alt="Cloud Shell Editor" src="img/13baacf2f891648e.jpg"> This is where you will modify the backend server and frontend application in the next steps.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Set up the Backend Server" duration="5">
+        <ol type="1">
+<li>Set up the backend server. Open the <code>server.ts</code> file in the <strong>Cloud Shell Editor</strong>. Navigate to the <code>src</code> folder and locate the <code>server.ts</code> file.<img alt="Open server.ts" src="img/401ef7e23f3d9c49.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/server.ts
+</code></pre>
+</li>
+<li>Delete the existing contents of the <code>server.ts</code> file.</li>
+<li>Copy the following code and paste it into the opened <code>server.ts</code> file:<pre><code language="language-typescript" class="language-typescript"> import {
+   AngularNodeAppEngine,
+   createNodeRequestHandler,
+   isMainModule,
+   writeResponseToNodeResponse,
+ } from &#39;@angular/ssr/node&#39;;
+ import express from &#39;express&#39;;
+ import { dirname, resolve } from &#39;node:path&#39;;
+ import { fileURLToPath } from &#39;node:url&#39;;
+ import pg from &#39;pg&#39;;
+ import { AuthTypes, Connector } from &#39;@google-cloud/cloud-sql-connector&#39;;
+ import { GoogleAuth } from &#39;google-auth-library&#39;;
+
+ const auth = new GoogleAuth();
+
+ const { Pool } = pg;
+
+ type Task = {
+   id: string;
+   title: string;
+   status: &#39;IN_PROGRESS&#39; | &#39;COMPLETE&#39;;
+   createdAt: number;
+ };
+
+ const projectId = await auth.getProjectId();
+
+ const connector = new Connector();
+ const clientOpts = await connector.getOptions({
+   instanceConnectionName: `${projectId}:us-central1:quickstart-instance`,
+   authType: AuthTypes.IAM,
+ });
+
+ const pool = new Pool({
+   ...clientOpts,
+   user: `quickstart-service-account@${projectId}.iam`,
+   database: &#39;quickstart_db&#39;,
+ });
+
+ const tableCreationIfDoesNotExist = async () =&gt; {
+   await pool.query(`CREATE TABLE IF NOT EXISTS tasks (
+       id SERIAL NOT NULL,
+       created_at timestamp NOT NULL,
+       status VARCHAR(255) NOT NULL default &#39;IN_PROGRESS&#39;,
+       title VARCHAR(1024) NOT NULL,
+       PRIMARY KEY (id)
+     );`);
+ }
+
+ const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+ const browserDistFolder = resolve(serverDistFolder, &#39;../browser&#39;);
+
+ const app = express();
+ const angularApp = new AngularNodeAppEngine();
+
+ app.use(express.json());
+
+ app.get(&#39;/api/tasks&#39;, async (req, res) =&gt; {
+   await tableCreationIfDoesNotExist();
+   const { rows } = await pool.query(`SELECT id, created_at, status, title FROM tasks ORDER BY created_at DESC LIMIT 100`);
+   res.send(rows);
+ });
+
+ app.post(&#39;/api/tasks&#39;, async (req, res) =&gt; {
+   const newTaskTitle = req.body.title;
+   if (!newTaskTitle) {
+     res.status(400).send(&#34;Title is required&#34;);
+     return;
+   }
+   await tableCreationIfDoesNotExist();
+   await pool.query(`INSERT INTO tasks(created_at, status, title) VALUES(NOW(), &#39;IN_PROGRESS&#39;, $1)`, [newTaskTitle]);
+   res.sendStatus(200);
+ });
+
+ app.put(&#39;/api/tasks&#39;, async (req, res) =&gt; {
+   const task: Task = req.body;
+   if (!task || !task.id || !task.title || !task.status) {
+     res.status(400).send(&#34;Invalid task data&#34;);
+     return;
+   }
+   await tableCreationIfDoesNotExist();
+   await pool.query(
+     `UPDATE tasks SET status = $1, title = $2 WHERE id = $3`,
+     [task.status, task.title, task.id]
+   );
+   res.sendStatus(200);
+ });
+
+ app.delete(&#39;/api/tasks&#39;, async (req, res) =&gt; {
+   const task: Task = req.body;
+   if (!task || !task.id) {
+     res.status(400).send(&#34;Task ID is required&#34;);
+     return;
+   }
+   await tableCreationIfDoesNotExist();
+   await pool.query(`DELETE FROM tasks WHERE id = $1`, [task.id]);
+   res.sendStatus(200);
+ });
+
+ /**
+ * Serve static files from /browser
+ */
+ app.use(
+   express.static(browserDistFolder, {
+     maxAge: &#39;1y&#39;,
+     index: false,
+     redirect: false,
+   }),
+ );
+
+ /**
+ * Handle all other requests by rendering the Angular application.
+ */
+ app.use(/./, (req, res, next) =&gt; {
+   angularApp
+     .handle(req)
+     .then((response) =&gt;
+       response ? writeResponseToNodeResponse(response, res) : next(),
+     )
+     .catch(next);
+ });
+
+ /**
+ * Start the server if this module is the main entry point.
+ * The server listens on the port defined by the `PORT` environment variable, or defaults to 4000.
+ */
+ if (isMainModule(import.meta.url)) {
+   const port = process.env[&#39;PORT&#39;] || 4000;
+   app.listen(port, () =&gt; {
+     console.log(`Node Express server listening on http://localhost:${port}`);
+   });
+ }
+
+ /**
+ * Request handler used by the Angular CLI (for dev-server and during build) or Firebase Cloud Functions.
+ */
+ export const reqHandler = createNodeRequestHandler(app);
+
+</code></pre>
+<ul>
+<li>The file sets up the Express server to handle API requests and to connect to the PostgreSQL database.</li>
+<li>The <code>tableCreationIfDoesNotExist</code> function ensures that the tasks table is created if it doesn&#39;t already exist.</li>
+</ul>
+</li>
+<li>Save the file.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Modify the Frontend" duration="5">
+        <ol type="1">
+<li>Navigate to the <code>src</code> folder and open the <code>app.ts</code> file<img alt="Open app.ts" src="img/5599dd89d7790540.jpg">or open it using the following command:<pre><code language="language-bash" class="language-bash">cloudshell edit src/app.ts
+</code></pre>
+</li>
+<li>Delete the existing contents of the <code>app.ts</code> file.</li>
+<li>Add the following code to the <code>app.ts</code> file:<pre><code language="language-typescript" class="language-typescript"> import { afterNextRender, Component, signal } from &#39;@angular/core&#39;;
+ import { FormsModule } from &#39;@angular/forms&#39;;
+
+ type Task = {
+   id: string;
+   title: string;
+   status: &#39;IN_PROGRESS&#39; | &#39;COMPLETE&#39;;
+   createdAt: number;
+ };
+
+ @Component({
+   selector: &#39;app-root&#39;,
+   imports: [FormsModule],
+   template: `
+     &lt;main class=&#34;container&#34;&gt;
+       &lt;h1&gt;&#123;&#123; title() }}&lt;/h1&gt;
+       &lt;section class=&#34;task-input&#34;&gt;
+       &lt;input
+         type=&#34;text&#34;
+         placeholder=&#34;New Task Title&#34;
+         [(ngModel)]=&#34;newTaskTitle&#34;
+         (keyup.enter)=&#34;addTask()&#34;
+       /&gt;
+       &lt;button (click)=&#34;addTask()&#34;&gt;Add new task&lt;/button&gt;
+       &lt;/section&gt;
+       &lt;table class=&#34;task-table&#34;&gt;
+         &lt;tbody&gt;
+           @for (task of tasks(); track task) {
+             @let isComplete = task.status === &#39;COMPLETE&#39;;
+             &lt;tr&gt;
+               &lt;td&gt;
+                 &lt;input
+                   (click)=&#34;updateTask(task, { status: isComplete ? &#39;IN_PROGRESS&#39; : &#39;COMPLETE&#39; })&#34;
+                   type=&#34;checkbox&#34;
+                   [checked]=&#34;isComplete&#34;
+                 /&gt;
+               &lt;/td&gt;
+               &lt;td class=&#34;task-title&#34; [class.complete]=&#34;isComplete&#34;&gt;&#123;&#123; task.title }}&lt;/td&gt;
+               &lt;td class=&#34;task-status&#34;&gt;&#123;&#123; task.status }}&lt;/td&gt;
+               &lt;td&gt;
+                 &lt;button (click)=&#34;deleteTask(task)&#34;&gt;Delete&lt;/button&gt;
+               &lt;/td&gt;
+             &lt;/tr&gt;
+           }
+         &lt;/tbody&gt;
+       &lt;/table&gt;
+     &lt;/main&gt;
+   `,
+   styles: [
+     `
+       :host {
+         display: block;
+         font-family: -apple-system, BlinkMacSystemFont, &#34;Segoe UI&#34;, Roboto,
+           Helvetica, Arial, sans-serif, &#34;Apple Color Emoji&#34;, &#34;Segoe UI Emoji&#34;,
+           &#34;Segoe UI Symbol&#34;;
+         background-color: #f0f2f5;
+         color: #333;
+         min-height: 100vh;
+       }
+       .container {
+         max-width: 800px;
+         margin: 0 auto;
+         padding: 2rem;
+       }
+       h1 {
+         font-size: 3rem;
+         font-weight: bold;
+         color: #1a202c;
+         text-align: center;
+         margin-bottom: 2rem;
+       }
+       .task-input {
+         display: flex;
+         gap: 0.5rem;
+         margin-bottom: 2rem;
+       }
+       .task-input input {
+         flex-grow: 1;
+         padding: 0.75rem;
+         border: 1px solid #cbd5e0;
+         border-radius: 0.375rem;
+         font-size: 1rem;
+       }
+       .task-input button, .task-table button {
+         padding: 0.75rem 1.5rem;
+         background-color: #4299e1;
+         color: white;
+         border: none;
+         border-radius: 0.375rem;
+         cursor: pointer;
+         font-weight: bold;
+         transition: background-color 0.2s;
+       }
+       .task-input button:hover, .task-table button:hover {
+         background-color: #3182ce;
+       }
+       .task-table {
+         width: 100%;
+         border-collapse: collapse;
+         background: white;
+         border-radius: 0.5rem;
+         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+       }
+       .task-table td {
+         padding: 1rem;
+         border-bottom: 1px solid #e2e8f0;
+       }
+       .task-title.complete {
+         text-decoration: line-through;
+         color: #a0aec0;
+       }
+     `,
+   ],
+ })
+ export class App {
+   newTaskTitle = &#39;&#39;;
+   tasks = signal&lt;Task[]&gt;([]);
+   readonly title = signal(&#39;to-do-tracker&#39;);
+
+   constructor() {
+     afterNextRender({
+       earlyRead: () =&gt; this.getTasks()
+     });
+   }
+
+   async getTasks() {
+     const response = await fetch(`/api/tasks`);
+     const tasks = await response.json();
+     this.tasks.set(tasks);
+   }
+
+   async addTask() {
+     await fetch(`/api/tasks`, {
+       method: &#39;POST&#39;,
+       headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+       body: JSON.stringify({
+         title: this.newTaskTitle,
+         status: &#39;IN_PROGRESS&#39;,
+         createdAt: Date.now(),
+       }),
+     });
+     this.newTaskTitle = &#39;&#39;;
+     await this.getTasks();
+   }
+
+   async updateTask(task: Task, newTaskValues: Partial&lt;Task&gt;) {
+     await fetch(`/api/tasks`, {
+       method: &#39;PUT&#39;,
+       headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+       body: JSON.stringify({ ...task, ...newTaskValues }),
+     });
+     await this.getTasks();
+   }
+
+   async deleteTask(task: any) {
+     await fetch(&#39;/api/tasks&#39;, {
+       method: &#39;DELETE&#39;,
+       headers: { &#39;Content-Type&#39;: &#39;application/json&#39; },
+       body: JSON.stringify(task),
+     });
+     await this.getTasks();
+   }
+ }
+
+</code></pre>
+</li>
+<li>Save the file.</li>
+</ol>
+<p>The application is now ready to be deployed.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Deploy the application to Cloud Run" duration="5">
+        <p>Click <strong>Open Terminal</strong> to open the <strong>Cloud Shell terminal</strong> and ensure you are in the <code>task-app</code> directory. If you are not, navigate to it using:</p>
+<pre><code language="language-bash" class="language-bash">cd ~/task-app
+</code></pre>
+<ol type="1">
+<li>Run the command below to deploy your application to <strong>Cloud Run</strong>.<pre><code language="language-bash" class="language-bash">gcloud run deploy to-do-tracker \
+   --region=us-central1 \
+   --source=. \
+   --service-account=&#34;quickstart-service-account@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com&#34; \
+   --allow-unauthenticated
+</code></pre>
+Cloud Run uses <a href="https://cloud.google.com/docs/buildpacks/overview" target="_blank"><strong>Cloud Native Buildpacks</strong></a> to build a Docker image from your source code. This process requires no Dockerfile and sets permissions via the service account, allowing unauthenticated access.<ul>
+<li><code>--region=us-central1</code>: Specifies the region where the service will be deployed.</li>
+<li><code>--source=.</code>: Deploys the application from the current directory.</li>
+<li><code>--service-account</code>: Specifies the service account to use for the deployment. Use the <code>quickstart-service-account</code> created earlier.</li>
+<li><code>--allow-unauthenticated</code>: Allows public access to the application.</li>
+</ul>
+</li>
+<li>When prompted, type <code>y</code> and <code>Enter</code> to confirm that you would like to continue:<pre><code language="language-bash" class="language-bash">Do you want to continue (Y/n)? Y
+</code></pre>
+After a few minutes, the application should provide a URL for you to visit.</li>
+</ol>
+<p>Navigate to the Service URL to see your application in action. Every time you visit the URL or refresh the page, you will see the task app. 👇</p>
+<p class="image-container"><img alt="to-do-tracker app" src="img/9e9219b5e972a8d.jpg"></p>
+<h2 is-upgraded>Test the application</h2>
+<p>Use the application to add, update, and delete tasks. Verify that the backend and database are working as expected.</p>
+<p>You can use tools like Postman or curl to test the API endpoints directly.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Congratulations 🎉" duration="3">
+        <p>You have successfully deployed a full-stack Angular application to Google Cloud Run with a Cloud SQL backend. This application allows you to manage tasks and will scale automatically based on demand.</p>
+<p>In this lab, you have learned how to do the following:</p>
+<ul>
+<li>Create a Cloud SQL for PostgreSQL instance</li>
+<li>Deploy an application to Cloud Run that connects to your Cloud SQL database</li>
+<li>Set up an Angular frontend that interacts with the backend API</li>
+</ul>
+<h2 is-upgraded>Cleanup Instructions</h2>
+<p>Cloud SQL does not have a free tier and will charge you if you continue to use it. To avoid incurring unnecessary costs, delete the Cloud project after completing the codelab.</p>
+<p>While Cloud Run does not charge when the service is not in use, you might still be charged for storing the container image in Artifact Registry. Deleting your Cloud project stops billing for all the resources used within that project.</p>
+<h2 is-upgraded>Delete the Cloud Project</h2>
+<p>To delete the entire project and stop all billing:</p>
+<pre><code language="language-bash" class="language-bash">gcloud projects delete ${GOOGLE_CLOUD_PROJECT}
+</code></pre>
+<h3 is-upgraded>Optional: Delete Specific Resources</h3>
+<p>If you prefer not to delete the entire project, you can delete individual resources:</p>
+<ol type="1">
+<li>Delete the <strong>Cloud SQL instance</strong>:<pre><code language="language-bash" class="language-bash">gcloud sql instances delete quickstart-instance --quiet
+</code></pre>
+</li>
+<li>Delete the <strong>Cloud Run service</strong>:<pre><code language="language-bash" class="language-bash">gcloud run services delete to-do-tracker --region=us-central1 --quiet
+</code></pre>
+</li>
+<li>Delete the codelab project directory:<pre><code language="language-bash" class="language-bash">rm -rf ~/task-app
+</code></pre>
+</li>
+<li><strong>Warning!</strong> This next action is can&#39;t be undone! If you would like to delete everything on your Cloud Shell to free up space, you can <a href="https://cloud.google.com/shell/docs/resetting-cloud-shell" target="_blank"><strong>delete your whole home directory</strong></a>. Be careful that everything you want to keep is saved somewhere else.<pre><code language="language-bash" class="language-bash">sudo rm -rf $HOME
+</code></pre>
+In the Cloud Shell menu, click <strong>More</strong> &gt; <strong>Restart</strong>. Confirm the restart to provision a new VM and reset the home directory to its default state.</li>
+</ol>
+<h2 is-upgraded>Resources 📚</h2>
+<ul>
+<li><a href="https://cloud.google.com/run/docs" target="_blank">Google Cloud Run Documentation</a></li>
+<li><a href="https://cloud.google.com/sql/docs" target="_blank">Google Cloud SQL Documentation</a></li>
+<li><a href="https://angular.dev/overview" target="_blank">Angular Documentation</a></li>
+<li><a href="https://cloud.google.com/shell/docs/how-to" target="_blank">Google Cloud Shell - How-to Guides</a></li>
+</ul>
+<h2 is-upgraded>Thank you 🙏</h2>
+<p>I hope you found this codelab helpful in understanding how to deploy a full-stack Angular application to Google Cloud Run with a Cloud SQL backend.</p>
+<h3 is-upgraded>Feedback</h3>
+<p>I value your feedback! If you have any suggestions or encounter issues, please let us know by submitting feedback at <a href="https://github.com/JavaVista/codevista-codelabs/issues" target="_blank">GitHub Issues</a>.</p>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
