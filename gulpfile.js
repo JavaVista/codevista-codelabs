@@ -567,7 +567,8 @@ const generateView = () => {
     const all = collectMetadata();
 
     // Calculate URL parameters to append.
-    let codelabUrlParams = 'index=' + encodeURIComponent('../..' + view.url);
+    let indexUrl = view.id === 'default' ? '../..' : '../..' + view.url + '.html';
+    let codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
     if (view.ga || args.indexGa) {
       let viewGa = args.indexGa ? args.indexGa : view.ga;
       codelabUrlParams += '&viewga=' + viewGa;
