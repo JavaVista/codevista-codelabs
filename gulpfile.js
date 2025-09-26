@@ -666,7 +666,8 @@ const viewFuncs = {
       if (url.length > 0 && url[0] !== '/') {
         url = `/${url}`;
       }
-      return url;
+      // Apply baseUrl prefix for GitHub Pages deployment
+      return `${BASE_URL}${url}`;
     }
   },
 
