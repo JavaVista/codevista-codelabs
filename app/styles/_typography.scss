@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-@import "material";
+@use "material" as *;
 
 body {
   @include md-font-subhead();

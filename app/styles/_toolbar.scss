@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-@import "_variables";
+@use "sass:color";
+@use "_variables" as *;
 
 #mainToolbar {
   display: flex;
   align-items: center;
   height: $keyline * 8;
-  background: linear-gradient(135deg, $light-primary 0%, lighten($light-primary, 5%) 100%);
+  background: linear-gradient(135deg, $light-primary 0%, color.adjust($light-primary, $lightness: 5%) 100%);
   color: #fff;
   padding: $keyline * 2;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);

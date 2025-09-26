@@ -32,7 +32,8 @@
     });
 
     app.codelabUrl = function(view, codelab) {
-      var codelabUrlParams = 'index=' + encodeURIComponent('../..' + view.url);
+      var indexUrl = '../..' + view.url;
+      var codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
       if (view.ga) {
         codelabUrlParams += '&viewga=' + view.ga;
       }

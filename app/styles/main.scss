@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-@import "variables";
-@import "material";
-@import "_layout";
-@import "_typography";
+@use "sass:color";
+@use "variables" as *;
+@use "material" as *;
+@use "_layout" as *;
+@use "_typography" as *;
 
-@import "_app";
-@import "_toolbar";
-@import "_codelab-card";
-@import "_footer";
+@use "_app" as *;
+@use "_toolbar" as *;
+@use "_codelab-card" as *;
+@use "_footer" as *;
 
 // Rounded buttons - Angular Material v20 style
 .mdc-button {
@@ -68,11 +69,11 @@ body.dark-mode {
   }
 
   a {
-    color: lighten($dark-primary, 10%);
+    color: color.adjust($dark-primary, $lightness: 10%);
   }
 
   .card-duration {
-    color: lighten($dark-text, 30%);
+    color: color.adjust($dark-text, $lightness: 30%);
   }
 
   .description {

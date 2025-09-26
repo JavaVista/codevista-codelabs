@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-@import "_variables";
-@import "_material";
+@use "_variables" as *;
+@use "_material" as *;
+@use "_layout" as *;
 
 * {
   box-sizing: border-box;

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-@import "_variables";
-@import "_categories";
+@use "sass:math";
+@use "_variables" as *;
+@use "_categories" as *;
+@use "_material" as *;
 
 $card-width: 330px;
 $card-row-height: 250px; // normal mode
@@ -45,7 +47,7 @@ $card-col-height: 200px; // column mode
   }
 
   img {
-    margin-right: $keyline / 2;
+    margin-right: math.div($keyline, 2);
   }
 
   .card-header {

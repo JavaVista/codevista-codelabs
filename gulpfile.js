@@ -450,7 +450,7 @@ const parseCodelabMetadata = (filepath) => {
 
   meta.mainCategory = meta.category[0] || DEFAULT_CATEGORY;
   meta.categoryClass = categoryClass(meta);
-  meta.url = path.join(CODELABS_NAMESPACE, meta.id, 'index.html');
+  meta.url = CODELABS_NAMESPACE + '/' + meta.id + '/index.html';
 
   return meta;
 }
@@ -570,7 +570,7 @@ const generateView = () => {
     const all = collectMetadata();
 
     // Calculate URL parameters to append.
-    let indexUrl = view.id === 'default' ? '../..' : '../..' + view.url + '.html';
+    let indexUrl = view.id === 'default' ? '../..' : '../../' + view.url + '.html';
     let codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
     if (view.ga || args.indexGa) {
       let viewGa = args.indexGa ? args.indexGa : view.ga;
