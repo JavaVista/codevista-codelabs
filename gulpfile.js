@@ -13,6 +13,7 @@ const htmlmin = require('gulp-htmlmin');
 const merge = require('merge-stream');
 const postcss = require('gulp-html-postcss');
 const rename = require('gulp-rename');
+const replace = require('gulp-replace');
 const sass = require('gulp-sass')(require('sass'));
 const through = require('through2');
 const useref = require('gulp-useref');
@@ -209,6 +210,7 @@ gulp.task('build:js', (callback) => {
     'app/scripts/**/*',
   ];
   streams.push(gulp.src(scriptSrcs, { base: 'app/' })
+    .pipe(gulpif('*.js', replace('/bower_components/', `${BASE_URL}/bower_components/`)))
     .pipe(gulpif('*.js', babel(opts.babel())))
     .pipe(gulp.dest('build'))
   );
