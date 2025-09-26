@@ -197,6 +197,7 @@ gulp.task('build:js', (callback) => {
     // Needed for async loading - remove after polymer/polymer#2380
     'app/bower_components/google-codelab-elements/shared-style.html',
     'app/bower_components/google-prettify/src/prettify.js',
+    'app/bower_components/url-search-params-polyfill/build/url-search-params.js',
   ];
   streams.push(gulp.src(bowerSrcs, { base: 'app/' })
     .pipe(gulpif('*.js', babel(opts.babel())))
