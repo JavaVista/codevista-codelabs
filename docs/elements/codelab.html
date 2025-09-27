@@ -563,12 +563,14 @@
 <div class="drawer-content-wrapper layout vertical" style="height:100%">
 <div class="flex" style="overflow:auto;">
 <div title="Time remaining" hidden$="{{!_isPositiveNum(duration)}}" class="countdown layout horizontal">
-<iron-icon icon="schedule"></iron-icon> <span>[[remaining]]</span>
+<iron-icon icon="schedule"></iron-icon>
+<span>[[remaining]]</span>
 </div>
 <paper-menu id="toc" class="flex" selected="{{selected}}" on-iron-select="_allowCodelabComplete">
 <template is="dom-repeat" items="{{steps}}" strip-whitespace="">
 <paper-item class$="{{_tocItemClass(selected, index)}}">
-<i>{{item.step}}</i><span>{{item.label}}</span>
+<i>{{item.step}}</i>
+<span>{{item.label}}</span>
 </paper-item>
 </template>
 </paper-menu>
@@ -579,7 +581,10 @@
 </template>
 <div id="feedback" hidden$="[[!feedbackLink]]">
 Did you find a mistake?
-<a target="_blank" href$="{{feedbackLink}}">Please file a bug</a>.
+<a target="_blank" href$="{{feedbackLink}}">
+Please file a bug
+</a>
+.
 </div>
 </div>
 </div>
@@ -597,7 +602,8 @@ Did you find a mistake?
 </div>
 <h3 class="title">[[title]]</h3>
 <div title="Time remaining" hidden$="{{!_isPositiveNum(duration)}}" class="countdown layout horizontal">
-<iron-icon icon="schedule"></iron-icon> <span>{{remaining}}</span>
+<iron-icon icon="schedule"></iron-icon>
+<span>{{remaining}}</span>
 </div>
 </div>
 </div>
@@ -607,13 +613,19 @@ Did you find a mistake?
 </neon-animated-pages>
 <footer id="controls" hidden$="[[noArrows]]" narrow$="[[_narrow]]">
 <div class="fabs layout horizontal justified">
-<paper-button raised="" class="navbutton prevbutton" on-tap="selectPrevious" title="Previous step" disabled$="{{_isFirstStep(selected)}}">Back</paper-button>
+<paper-button raised="" class="navbutton prevbutton" on-tap="selectPrevious" title="Previous step" disabled$="{{_isFirstStep(selected)}}">
+Back
+</paper-button>
 <div>
 <template is="dom-if" if="{{_showNextFab(selected, steps)}}" strip-whitespace="">
-<paper-button raised="" class="navbutton nextbutton" title="{{_nextFabTitle(selected)}}" on-tap="selectNext">Next</paper-button>
+<paper-button raised="" class="navbutton nextbutton" title="{{_nextFabTitle(selected)}}" on-tap="selectNext">
+Next
+</paper-button>
 </template>
 <template is="dom-if" if="{{_showDoneFab(selected, steps)}}" strip-whitespace="">
-<paper-button raised="" class="navbutton donebutton" on-tap="_goToHome" title="Complete codelab">Done</paper-button>
+<paper-button raised="" class="navbutton donebutton" on-tap="_goToHome" title="Complete codelab">
+Done
+</paper-button>
 </template>
 </div>
 </div>
@@ -622,11 +634,22 @@ Did you find a mistake?
 </app-header-layout>
 </app-drawer-layout>
 <paper-dialog id="resumeDialog" modal="">
-<h2>Would you like to resume where you left off?</h2>
-<p>Step <span>{{_storedStep.step}}</span>: <span>{{_storedStep.label}}</span></p>
+<h2>
+Would you like to resume where you left off?
+</h2>
+<p>
+Step
+<span>{{_storedStep.step}}</span>
+:
+<span>{{_storedStep.label}}</span>
+</p>
 <div class="buttons">
-<paper-button dialog-dismiss="" on-click="_stateInit">Cancel</paper-button>
-<paper-button dialog-confirm="" on-click="_resume" autofocus="">Resume</paper-button>
+<paper-button dialog-dismiss="" on-click="_stateInit">
+Cancel
+</paper-button>
+<paper-button dialog-confirm="" on-click="_resume" autofocus="">
+Resume
+</paper-button>
 </div>
 </paper-dialog>
 </template>
