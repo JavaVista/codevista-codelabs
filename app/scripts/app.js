@@ -32,7 +32,10 @@
     });
 
     app.codelabUrl = function(view, codelab) {
-      var indexUrl = '../..' + view.url;
+      // Build index URL so codelab "Close" returns to correct view
+      // Use absolute, pretty URLs to avoid relative path quirks and dot stripping
+      // e.g. "/" for default, "/angular/" for angular view (directory index points to *.html)
+      var indexUrl = view.id === 'default' ? '/' : '/' + view.url + '.html';
       var codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
       if (view.ga) {
         codelabUrlParams += '&viewga=' + view.ga;

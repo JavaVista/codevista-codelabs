@@ -93,5 +93,22 @@ exports.vulcanize = () => {
 exports.webserver = () => {
   return {
     livereload: false,
+    middleware: [
+      function(req, res, next) {
+        // Handle malformed URLs from codelab Close button
+        // Pattern: /viewNamehtml → /viewName.html
+        const malformedUrlPattern = /^\/([a-z0-9\-]+)html$/i;
+        const match = req.url.match(malformedUrlPattern);
+        
+        if (match) {
+          const viewName = match[1];
+          const correctUrl = `/${viewName}.html`;
+          res.writeHead(301, { 'Location': correctUrl });
+          res.end();
+          return;
+        }
+        next();
+      }
+    ]
   };
 };

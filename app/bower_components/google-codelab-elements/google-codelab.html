@@ -1,5 +1,4 @@
-<!--
-Copyright (c) 2015 Google Inc.
+<!-- Copyright (c) 2015 Google Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this file except in compliance with the License. You may obtain a copy of
@@ -11,8 +10,7 @@ Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
 WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 License for the specific language governing permissions and limitations under
-the License.
--->
+the License. -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
@@ -38,8 +36,7 @@ the License.
 <link rel="import" href="codelab-style.html">
 <link rel="import" href="analytics-behavior.html">
 
-<!--
-This is the top level component of google-codelab elements.
+<!-- This is the top level component of google-codelab elements.
 It expects to find one or more `google-codelab-step` elements in its content.
 
 Example:
@@ -62,119 +59,237 @@ prevent syntax highlighting code blocks, respectively:
     <google-codelab theme="minimal" no-toolbar no-arrows no-highlight>
 
 @demo demo/codelab.html
-@demo demo/embed.html
--->
+@demo demo/embed.html -->
 <dom-module id="google-codelab">
-  <template strip-whitespace>
-    <style include="layout-style"></style>
-    <style include="codelab-style"></style>
+    <template strip-whitespace>
+        <style include="layout-style"></style>
+        <style include="codelab-style"></style>
 
-    <iron-localstorage name="{{title}}" value="{{state}}" hidden
-        on-iron-localstorage-load-empty="_stateInit"
-        on-iron-localstorage-load="_stateLoaded">
-    </iron-localstorage>
+        <iron-localstorage
+            name="{{title}}"
+            value="{{state}}"
+            hidden
+            on-iron-localstorage-load-empty="_stateInit"
+            on-iron-localstorage-load="_stateLoaded"
+        >
+        </iron-localstorage>
 
-    <app-drawer-layout fullbleed narrow="{{_narrow}}">
-      <app-drawer id="drawer" swipe-open>
+        <app-drawer-layout
+            fullbleed
+            narrow="{{_narrow}}"
+        >
+            <app-drawer
+                id="drawer"
+                swipe-open
+            >
 
-        <div class="drawer-content-wrapper layout vertical" style="height:100%">
+                <div
+                    class="drawer-content-wrapper layout vertical"
+                    style="height:100%"
+                >
 
-          <div class="flex" style="overflow: auto;">
-            <div title="Time remaining" hidden$="{{!_isPositiveNum(duration)}}"
-                 class="countdown layout horizontal">
-              <iron-icon icon="schedule"></iron-icon> <span>[[remaining]]</span>
+                    <div
+                        class="flex"
+                        style="overflow: auto;"
+                    >
+                        <div
+                            title="Time remaining"
+                            hidden$="{{!_isPositiveNum(duration)}}"
+                            class="countdown layout horizontal"
+                        >
+                            <iron-icon icon="schedule"></iron-icon>
+                            <span>[[remaining]]</span>
+                        </div>
+
+                        <paper-menu
+                            id="toc"
+                            class="flex"
+                            selected="{{selected}}"
+                            on-iron-select="_allowCodelabComplete"
+                        >
+                            <template
+                                is="dom-repeat"
+                                items="{{steps}}"
+                                strip-whitespace
+                            >
+                                <paper-item class$="{{_tocItemClass(selected, index)}}">
+                                    <i>{{item.step}}</i>
+                                    <span>{{item.label}}</span>
+                                </paper-item>
+                            </template>
+                        </paper-menu>
+                    </div>
+
+                    <div id="metadata">
+                        <template
+                            is="dom-if"
+                            if="{{lastUpdated}}"
+                            strip-whitespace
+                        >
+                            <div id="last-updated">Last updated on {{lastUpdated}}.</div>
+                        </template>
+                        <div
+                            id="feedback"
+                            hidden$="[[!feedbackLink]]"
+                        >
+                            Did you find a mistake?
+                            <a
+                                target="_blank"
+                                href$="{{feedbackLink}}"
+                            >
+                                Please file a bug
+                            </a>
+                            .
+                        </div>
+                    </div>
+
+                </div>
+
+            </app-drawer>
+
+            <app-header-layout fullbleed>
+
+                <div
+                    id="headerpanel"
+                    fixed
+                    narrow$="[[_narrow]]"
+                >
+                    <div
+                        id="main-toolbar"
+                        hidden$="[[noToolbar]]"
+                    >
+                        <div>
+                            <template
+                                is="dom-if"
+                                if="{{_narrow}}"
+                                strip-whitespace
+                            >
+                                <paper-icon-button
+                                    icon="menu"
+                                    drawer-toggle
+                                ></paper-icon-button>
+                            </template>
+                            <template
+                                is="dom-if"
+                                if="{{!_narrow}}"
+                                strip-whitespace
+                            >
+                                <paper-icon-button
+                                    icon="arrow-back"
+                                    on-tap="_goToHome"
+                                ></paper-icon-button>
+                            </template>
+                        </div>
+                        <h3 class="title">[[title]]</h3>
+                        <div
+                            title="Time remaining"
+                            hidden$="{{!_isPositiveNum(duration)}}"
+                            class="countdown layout horizontal"
+                        >
+                            <iron-icon icon="schedule"></iron-icon>
+                            <span>{{remaining}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="main-content">
+
+                    <neon-animated-pages
+                        id="pages"
+                        selected="{{selected}}"
+                        on-iron-deselect="_onStepLeave"
+                        on-iron-items-changed="_onStepsChanged"
+                    >
+                        <content select="google-codelab-step"></content>
+                    </neon-animated-pages>
+
+                    <footer
+                        id="controls"
+                        hidden$="[[noArrows]]"
+                        narrow$="[[_narrow]]"
+                    >
+                        <div class="fabs layout horizontal justified">
+                            <paper-button
+                                raised
+                                class="navbutton prevbutton"
+                                on-tap="selectPrevious"
+                                title="Previous step"
+                                disabled$="{{_isFirstStep(selected)}}"
+                            >
+                                Back
+                            </paper-button>
+
+                            <div>
+                                <template
+                                    is="dom-if"
+                                    if="{{_showNextFab(selected, steps)}}"
+                                    strip-whitespace
+                                >
+                                    <paper-button
+                                        raised
+                                        class="navbutton nextbutton"
+                                        title="{{_nextFabTitle(selected)}}"
+                                        on-tap="selectNext"
+                                    >
+                                        Next
+                                    </paper-button>
+                                </template>
+
+                                <template
+                                    is="dom-if"
+                                    if="{{_showDoneFab(selected, steps)}}"
+                                    strip-whitespace
+                                >
+                                    <paper-button
+                                        raised
+                                        class="navbutton donebutton"
+                                        on-tap="_goToHome"
+                                        title="Complete codelab"
+                                    >
+                                        Done
+                                    </paper-button>
+                                </template>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+
+            </app-header-layout>
+        </app-drawer-layout>
+
+        <paper-dialog
+            id="resumeDialog"
+            modal
+        >
+            <h2>
+                Would you like to resume where you left off?
+            </h2>
+            <p>
+                Step
+                <span>{{_storedStep.step}}</span>
+                :
+                <span>{{_storedStep.label}}</span>
+            </p>
+            <div class="buttons">
+                <paper-button
+                    dialog-dismiss
+                    on-click="_stateInit"
+                >
+                    Cancel
+                </paper-button>
+                <paper-button
+                    dialog-confirm
+                    on-click="_resume"
+                    autofocus
+                >
+                    Resume
+                </paper-button>
             </div>
+        </paper-dialog>
 
-            <paper-menu id="toc" class="flex" selected="{{selected}}"
-                        on-iron-select="_allowCodelabComplete">
-              <template is="dom-repeat" items="{{steps}}" strip-whitespace>
-                <paper-item class$="{{_tocItemClass(selected, index)}}">
-                  <i>{{item.step}}</i><span>{{item.label}}</span>
-                </paper-item>
-              </template>
-            </paper-menu>
-          </div>
-
-          <div id="metadata">
-            <template is="dom-if" if="{{lastUpdated}}" strip-whitespace>
-              <div id="last-updated">Last updated on {{lastUpdated}}.</div>
-            </template>
-            <div id="feedback" hidden$="[[!feedbackLink]]">
-              Did you find a mistake?
-              <a target="_blank" href$="{{feedbackLink}}">Please file a bug</a>.
-            </div>
-          </div>
-
-        </div>
-
-      </app-drawer>
-
-      <app-header-layout fullbleed>
-
-        <div id="headerpanel" fixed narrow$="[[_narrow]]">
-          <div id="main-toolbar" hidden$="[[noToolbar]]">
-            <div>
-              <template is="dom-if" if="{{_narrow}}" strip-whitespace>
-                <paper-icon-button icon="menu" drawer-toggle></paper-icon-button>
-              </template>
-              <template is="dom-if" if="{{!_narrow}}" strip-whitespace>
-                <paper-icon-button icon="arrow-back" on-tap="_goToHome"></paper-icon-button>
-              </template>
-            </div>
-            <h3 class="title">[[title]]</h3>
-            <div title="Time remaining" hidden$="{{!_isPositiveNum(duration)}}"
-                 class="countdown layout horizontal">
-              <iron-icon icon="schedule"></iron-icon> <span>{{remaining}}</span>
-            </div>
-          </div>
-        </div>
-
-        <div id="main-content">
-
-          <neon-animated-pages id="pages" selected="{{selected}}"
-              on-iron-deselect="_onStepLeave"
-              on-iron-items-changed="_onStepsChanged">
-            <content select="google-codelab-step"></content>
-          </neon-animated-pages>
-
-          <footer id="controls" hidden$="[[noArrows]]" narrow$="[[_narrow]]">
-            <div class="fabs layout horizontal justified">
-              <paper-button raised class="navbutton prevbutton"
-                on-tap="selectPrevious"
-                title="Previous step"
-                disabled$="{{_isFirstStep(selected)}}">Back</paper-button>
-
-              <div>
-                <template is="dom-if" if="{{_showNextFab(selected, steps)}}" strip-whitespace>
-                  <paper-button raised class="navbutton nextbutton"
-                    title="{{_nextFabTitle(selected)}}"
-                    on-tap="selectNext">Next</paper-button>
-                </template>
-
-                <template is="dom-if" if="{{_showDoneFab(selected, steps)}}" strip-whitespace>
-                  <paper-button raised class="navbutton donebutton"
-                    on-tap="_goToHome" title="Complete codelab">Done</paper-button>
-                </template>
-              </div>
-            </div>
-          </footer>
-        </div>
-
-      </app-header-layout>
-    </app-drawer-layout>
-
-    <paper-dialog id="resumeDialog" modal>
-      <h2>Would you like to resume where you left off?</h2>
-      <p>Step <span>{{_storedStep.step}}</span>: <span>{{_storedStep.label}}</span></p>
-      <div class="buttons">
-        <paper-button dialog-dismiss on-click="_stateInit">Cancel</paper-button>
-        <paper-button dialog-confirm on-click="_resume" autofocus>Resume</paper-button>
-      </div>
-    </paper-dialog>
-
-  </template>
-  <script>
-    Polymer({
+    </template>
+    <script>
+        Polymer({
       is: 'google-codelab',
 
       /**
@@ -548,5 +663,5 @@ prevent syntax highlighting code blocks, respectively:
         return stepIndex > 0 ? 'Next step' : 'Start codelab';
       }
     });
-  </script>
+    </script>
 </dom-module>
