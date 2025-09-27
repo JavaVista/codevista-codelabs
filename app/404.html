@@ -64,14 +64,25 @@
         const path = window.location.pathname;
         console.log('404 page loaded for path:', path);
         
+        // Detect base URL from current location for GitHub Pages support
+        // e.g., https://user.github.io/repo-name/ -> /repo-name/
+        const baseUrl = window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] + '/' : '/';
+        console.log('Detected base URL:', baseUrl);
+        
+        // Update home links to use correct base URL
+        const homeLinks = document.querySelectorAll('a[href="/"]');
+        homeLinks.forEach(function(link) {
+          link.href = baseUrl === '/' ? '/' : baseUrl.slice(0, -1); // Remove trailing slash for consistency
+        });
+        
         // Check if this is a malformed codelab URL (missing dot before html)
-        // Pattern: /viewNamehtml → /viewName.html
-        const malformedPattern = /^\/([a-z0-9\-]+)html$/i;
+        // Pattern: /baseUrl/viewNamehtml → /baseUrl/viewName.html
+        const malformedPattern = new RegExp('^' + baseUrl.replace(/\/$/, '') + '/([a-z0-9\\-]+)html$', 'i');
         const match = path.match(malformedPattern);
         
         if (match) {
           const viewName = match[1];
-          const correctUrl = `/${viewName}.html`;
+          const correctUrl = baseUrl.replace(/\/$/, '') + '/' + viewName + '.html';
           console.log('Detected malformed codelab URL. Redirecting:', path, '→', correctUrl);
           
           // Use replace to avoid adding to browser history
@@ -79,10 +90,18 @@
           return;
         }
         
-        // Check for other common patterns that might need fixing
-        if (path.endsWith('html') && !path.endsWith('.html')) {
-          console.log('Detected potential malformed URL:', path);
-          // Could add more specific patterns here if needed
+        // Also check for malformed URLs without base URL (fallback)
+        const simpleMalformedPattern = /^\/([a-z0-9\-]+)html$/i;
+        const simpleMatch = path.match(simpleMalformedPattern);
+        
+        if (simpleMatch) {
+          const viewName = simpleMatch[1];
+          const correctUrl = baseUrl.replace(/\/$/, '') + '/' + viewName + '.html';
+          console.log('Detected simple malformed codelab URL. Redirecting:', path, '→', correctUrl);
+          
+          // Use replace to avoid adding to browser history
+          window.location.replace(correctUrl);
+          return;
         }
         
         // If no redirect pattern matches, show 404 after a brief moment

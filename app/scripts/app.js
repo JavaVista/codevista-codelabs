@@ -33,9 +33,15 @@
 
     app.codelabUrl = function(view, codelab) {
       // Build index URL so codelab "Close" returns to correct view
-      // Use absolute, pretty URLs to avoid relative path quirks and dot stripping
-      // e.g. "/" for default, "/angular/" for angular view (directory index points to *.html)
-      var indexUrl = view.id === 'default' ? '/' : '/' + view.url + '.html';
+      // Detect base URL dynamically for GitHub Pages support
+      // e.g., https://user.github.io/repo-name/ -> /repo-name/
+      var baseUrl = window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] : '';
+      
+      // Build proper index URL with base URL
+      var indexUrl = view.id === 'default' 
+        ? baseUrl + '/' 
+        : baseUrl + '/' + view.url + '.html';
+      
       var codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
       if (view.ga) {
         codelabUrlParams += '&viewga=' + view.ga;
