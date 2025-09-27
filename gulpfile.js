@@ -571,10 +571,11 @@ const generateView = () => {
 
     // Calculate URL parameters to append.
     // Use absolute paths with BASE_URL so the codelab Close button always returns correctly
-    // e.g. "/" for default local, "/codevista-codelabs/" for GitHub Pages default
+    // For GitHub Pages, always point to actual HTML files, not just directories
+    // e.g. "/" for default local, "/codevista-codelabs/index.html" for GitHub Pages default
     // e.g. "/angular.html" for local, "/codevista-codelabs/angular.html" for GitHub Pages
     let indexUrl = view.id === 'default'
-      ? `${BASE_URL}/`
+      ? (BASE_URL ? `${BASE_URL}/index.html` : '/')
       : `${BASE_URL}/${view.url}.html`;
     let codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
     if (view.ga || args.indexGa) {

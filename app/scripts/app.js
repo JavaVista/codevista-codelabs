@@ -38,8 +38,9 @@
       var baseUrl = window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] : '';
       
       // Build proper index URL with base URL
+      // For GitHub Pages, always point to actual HTML files, not just directories
       var indexUrl = view.id === 'default' 
-        ? baseUrl + '/' 
+        ? (baseUrl ? baseUrl + '/index.html' : '/') 
         : baseUrl + '/' + view.url + '.html';
       
       var codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
