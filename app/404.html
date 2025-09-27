@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
-    <title>Error 404 (Not Found)</title>
+    <title>Redirecting...</title>
     <style>
       * {
         margin: 0;
@@ -46,14 +46,67 @@
         height: 25px;
         width: 100%;
       }
+
+      .loading {
+        display: inline-block;
+        margin-left: 10px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
     </style>
+    <script>
+      // Handle malformed URLs from codelab Close button on GitHub Pages
+      (function() {
+        const path = window.location.pathname;
+        console.log('404 page loaded for path:', path);
+        
+        // Check if this is a malformed codelab URL (missing dot before html)
+        // Pattern: /viewNamehtml → /viewName.html
+        const malformedPattern = /^\/([a-z0-9\-]+)html$/i;
+        const match = path.match(malformedPattern);
+        
+        if (match) {
+          const viewName = match[1];
+          const correctUrl = `/${viewName}.html`;
+          console.log('Detected malformed codelab URL. Redirecting:', path, '→', correctUrl);
+          
+          // Use replace to avoid adding to browser history
+          window.location.replace(correctUrl);
+          return;
+        }
+        
+        // Check for other common patterns that might need fixing
+        if (path.endsWith('html') && !path.endsWith('.html')) {
+          console.log('Detected potential malformed URL:', path);
+          // Could add more specific patterns here if needed
+        }
+        
+        // If no redirect pattern matches, show 404 after a brief moment
+        setTimeout(function() {
+          document.getElementById('redirect-message').style.display = 'none';
+          document.getElementById('not-found-message').style.display = 'block';
+        }, 2000);
+      })();
+    </script>
   </head>
 
   <body>
     <div id="wrapper">
       <a href="/"><span id="logo" aria-label="Google Codelabs"></span></a>
-      <p><b>404.</b> <ins>That’s an error.</ins></p>
-      <p>The requested URL was not found. <ins>That’s all we know.</ins></p>
+      
+      <div id="redirect-message">
+        <p><b>Redirecting...</b> <span class="loading">⟳</span></p>
+        <p><ins>Please wait while we redirect you to the correct page.</ins></p>
+      </div>
+      
+      <div id="not-found-message" style="display: none;">
+        <p><b>404.</b> <ins>That's an error.</ins></p>
+        <p>The requested URL was not found. <ins><a href="/">Return to home</a></ins></p>
+      </div>
     </div>
   </body>
 </html>
