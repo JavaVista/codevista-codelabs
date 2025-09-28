@@ -14,9 +14,8 @@ RUN npm ci --only=production
 COPY package.json ./
 RUN npm install
 
-# Install frontend dependencies using bower (already installed via npm)
-COPY bower.json ./
-RUN npx bower install --allow-root
+# Copy pre-installed bower components
+COPY app/bower_components/ ./app/bower_components/
 
 # Install Go and claat tool (required for codelab generation)
 RUN apk add --no-cache go git
