@@ -1,10 +1,16 @@
 {
     "private": true,
     "scripts": {
-        "build": "gulp dist",
+        "build": "claat export codelabs/*.md && gulp dist",
         "serve": "gulp serve",
         "serve:dist": "gulp serve:dist",
-        "deploy": "gulp dist --baseUrl=/codevista-codelabs && claat export codelabs/*.md && mkdir -p docs && cp -R dist/* docs/"
+        "start": "node server.js",
+        "dev": "npm run build && npm start"
+    },
+    "dependencies": {
+        "express": "^4.18.2",
+        "compression": "^1.7.4",
+        "helmet": "^7.0.0"
     },
     "devDependencies": {
         "autoprefixer": "^9.3.1",
@@ -47,6 +53,6 @@
         "yargs": "^12.0.4"
     },
     "engines": {
-        "node": ">=0.10.0"
+        "node": ">=18.0.0"
     }
 }

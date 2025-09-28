@@ -34,16 +34,18 @@ Visit `http://localhost:8000` to see your codelabs site!
 | Command              | Description                                                                       |
 | -------------------- | --------------------------------------------------------------------------------- |
 | `npm run serve`      | Builds and serves the site locally with live-reloading at `http://localhost:8000` |
-| `npm run build`      | Creates production build in `dist/` directory (minified, optimized)               |
+| `npm run build`      | Exports codelabs and creates production build in `dist/` directory               |
 | `npm run serve:dist` | Serves the production build from `dist/` for final testing                        |
-| `npm run deploy`     | Builds for production and copies to `docs/` for GitHub Pages deployment           |
+| `npm run start`      | Starts the Express server for production (used by Docker/Cloud Run)               |
+| `npm run dev`        | Builds and starts the server locally for development                              |
 
 **Notes:**
 
-- `serve` is for development (watches files, rebuilds automatically)
-- `build` creates the optimized production version
-- `serve:dist` helps verify the final output
-- `deploy` prepares for GitHub Pages (copies build to `docs/`)
+- `serve` is for development with file watching and live-reloading
+- `build` exports codelabs and creates the optimized production build
+- `serve:dist` helps verify the final output before deployment
+- `start` runs the Express server (production mode)
+- `dev` combines build + start for local development
 
 ### 3. **Add Your First Codelab**
 
@@ -165,23 +167,45 @@ Categories are automatically extracted from your codelab metadata. Simply add th
 Categories: web, angular, database, cloud
 ```
 
-## 🌐 Deploy to GitHub Pages
+## 🚀 Deploy to Google Cloud Run
 
-### **Option 1: Automatic Deployment**
+### **Why Cloud Run?**
 
-1. Push your changes to GitHub
-2. Go to Repository Settings → Pages
-3. Select "Deploy from a branch" → `main` → `/docs`
-4. Your site will be live at `https://yourusername.github.io/codevista-codelabs`
+✅ **Server-side capabilities** - Full Express.js middleware support  
+✅ **Better performance** - Proper caching, compression, and CDN  
+✅ **Cost-effective** - Pay-per-request, scales to zero  
+✅ **Professional** - Custom domains, SSL, health checks  
+✅ **No static hosting limitations** - Dropdown filters and dynamic routing work perfectly  
 
-### **Option 2: Manual Build**
+### **Quick Setup**
+
+1. **Set up GCP Project** - See [CLOUD_RUN_SETUP.md](CLOUD_RUN_SETUP.md) for detailed instructions
+2. **Configure GitHub Secrets** - Add your GCP credentials
+3. **Push to deploy** - Automatic deployment on every push to `main`
 
 ```bash
-# Build for production
-npm run build
-
-# The build/ directory contains your deployable site
+git add .
+git commit -m "feat: deploy to Cloud Run"
+git push origin main
 ```
+
+Your site will be live at a Cloud Run URL (e.g., `https://codevista-codelabs-xyz.run.app`)
+
+### **Local Development**
+
+```bash
+# Install dependencies
+npm ci
+
+# Build and run locally
+npm run dev
+
+# Or run production build
+npm run build
+npm start
+```
+
+Visit `http://localhost:8080` to see your site.
 
 ## 📁 Project Structure
 

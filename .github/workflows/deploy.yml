@@ -1,0 +1,101 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  SERVICE_NAME: ${{ secrets.CLOUD_RUN_SERVICE }}
+  REGION: ${{ secrets.CLOUD_RUN_REGION }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run tests (if any)
+      run: npm test --if-present
+
+    # Use Workload Identity Federation if WIF_PROVIDER secret is set
+    - name: Authenticate to Google Cloud (Workload Identity Federation)
+      if: ${{ vars.USE_WORKLOAD_IDENTITY == 'true' }}
+      uses: google-github-actions/auth@v2
+      with:
+        workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+        service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+    # Use Service Account Key by default (legacy method)
+    - name: Authenticate to Google Cloud (Service Account Key)
+      if: ${{ vars.USE_WORKLOAD_IDENTITY != 'true' }}
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Setup Google Cloud CLI
+      uses: google-github-actions/setup-gcloud@v2
+
+    - name: Configure Docker for Artifact Registry
+      run: gcloud auth configure-docker $REGION-docker.pkg.dev
+
+    - name: Create Artifact Registry repository (if needed)
+      run: |
+        gcloud artifacts repositories create $SERVICE_NAME \
+          --repository-format=docker \
+          --location=$REGION \
+          --description="Docker repository for $SERVICE_NAME" \
+          --quiet || echo "Repository already exists"
+
+    - name: Build Docker image
+      run: |
+        docker build -t $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA .
+        docker tag $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:latest
+
+    - name: Push Docker image
+      run: |
+        docker push $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA
+        docker push $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:latest
+
+    - name: Deploy to Cloud Run
+      run: |
+        gcloud run deploy $SERVICE_NAME \
+          --image $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:$GITHUB_SHA \
+          --platform managed \
+          --region $REGION \
+          --allow-unauthenticated \
+          --memory 512Mi \
+          --cpu 1 \
+          --min-instances 0 \
+          --max-instances 10 \
+          --port 8080 \
+          --timeout 300 \
+          --set-env-vars NODE_ENV=production
+
+    - name: Get service URL
+      run: |
+        SERVICE_URL=$(gcloud run services describe $SERVICE_NAME --platform managed --region $REGION --format 'value(status.url)')
+        echo "Service deployed at: $SERVICE_URL"
+        echo "SERVICE_URL=$SERVICE_URL" >> $GITHUB_OUTPUT
+
+    - name: Cleanup old images (keep last 5)
+      run: |
+        gcloud artifacts docker images list $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME \
+          --include-tags \
+          --format="get(version)" \
+          --limit=999999 \
+          --sort-by=~UPDATE_TIME | tail -n +6 | \
+          xargs -I {} gcloud artifacts docker images delete $REGION-docker.pkg.dev/$PROJECT_ID/$SERVICE_NAME/$SERVICE_NAME:{} --quiet || true

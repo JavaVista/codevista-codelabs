@@ -53,10 +53,6 @@ const DEFAULT_VIEW_TMPL_PATH = 'app/views/default/index.html';
 // DEFAULT_CATEGORY is the default name for uncategorized codelabs.
 const DEFAULT_CATEGORY = 'Default';
 
-// BASE_URL is the canonical base URL where the site will reside. This should
-// always include the protocol (http:// or https://) and NOT including a
-// trailing slash.
-const BASE_URL = (typeof args.baseUrl !== 'undefined') ? args.baseUrl : '';
 
 // CODELABS_DIR is the directory where the actual codelabs exist on disk.
 // Despite being a constant, this can be overridden with the --codelabs-dir
@@ -210,7 +206,6 @@ gulp.task('build:js', (callback) => {
     'app/scripts/**/*',
   ];
   streams.push(gulp.src(scriptSrcs, { base: 'app/' })
-    .pipe(gulpif('*.js', replace('/bower_components/', `${BASE_URL}/bower_components/`)))
     .pipe(gulpif('*.js', babel(opts.babel())))
     .pipe(gulp.dest('build'))
   );
@@ -570,13 +565,7 @@ const generateView = () => {
     const all = collectMetadata();
 
     // Calculate URL parameters to append.
-    // Use absolute paths with BASE_URL so the codelab Close button always returns correctly
-    // For GitHub Pages, always point to actual HTML files, not just directories
-    // e.g. "/" for default local, "/codevista-codelabs/index.html" for GitHub Pages default
-    // e.g. "/angular.html" for local, "/codevista-codelabs/angular.html" for GitHub Pages
-    let indexUrl = view.id === 'default'
-      ? (BASE_URL ? `${BASE_URL}/index.html` : '/')
-      : `${BASE_URL}/${view.url}.html`;
+    let indexUrl = view.id === 'default' ? '/' : `/${view.url}.html`;
     let codelabUrlParams = 'index=' + encodeURIComponent(indexUrl);
     if (view.ga || args.indexGa) {
       let viewGa = args.indexGa ? args.indexGa : view.ga;
@@ -589,7 +578,7 @@ const generateView = () => {
     const categories = filtered.categories;
 
     let locals = {
-      baseUrl: BASE_URL,
+      baseUrl: '',
       categories: categories,
       codelabs: codelabs,
       ga: ga,
@@ -627,9 +616,9 @@ const viewFuncs = {
   canonicalViewUrl: () => {
     return (view) => {
       if (view.id === 'default' || view.id === '') {
-        return `${BASE_URL}/`;
+        return '/';
       }
-      return `${BASE_URL}/${view.id}/`;
+      return `/${view.id}/`;
     };
   },
 
@@ -675,8 +664,7 @@ const viewFuncs = {
       if (url.length > 0 && url[0] !== '/') {
         url = `/${url}`;
       }
-      // Apply baseUrl prefix for GitHub Pages deployment
-      return `${BASE_URL}${url}`;
+      return url;
     }
   },
 

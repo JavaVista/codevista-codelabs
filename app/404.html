@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
-    <title>Redirecting...</title>
+    <title>Page Not Found - CodeVista Labs</title>
     <style>
       * {
         margin: 0;
@@ -38,93 +38,98 @@
       #wrapper {
         margin: 170px auto 0;
         padding: 0 70px;
+        text-align: center;
       }
 
       #logo {
         background: url('/images/lockup_developers_color_color.svg') no-repeat;
+        background-size: contain;
         display: inline-block;
-        height: 25px;
-        width: 100%;
+        height: 50px;
+        width: 200px;
+        margin-bottom: 30px;
       }
 
-      .loading {
-        display: inline-block;
-        margin-left: 10px;
-        animation: spin 1s linear infinite;
+      .error-code {
+        font-size: 6em;
+        font-weight: bold;
+        color: #1976D2;
+        margin: 20px 0;
       }
 
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+      .error-message {
+        font-size: 1.5em;
+        margin: 20px 0;
+      }
+
+      .home-link {
+        display: inline-block;
+        background-color: #1976D2;
+        color: white;
+        padding: 12px 24px;
+        text-decoration: none;
+        border-radius: 4px;
+        margin: 20px 0;
+        transition: background-color 0.3s ease;
+      }
+
+      .home-link:hover {
+        background-color: #1565C0;
+      }
+
+      .suggestions {
+        margin-top: 40px;
+        text-align: left;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .suggestions h3 {
+        color: #1976D2;
+        margin-bottom: 10px;
+      }
+
+      .suggestions ul {
+        list-style: none;
+        padding-left: 0;
+      }
+
+      .suggestions li {
+        margin: 8px 0;
+      }
+
+      .suggestions a {
+        color: #1976D2;
+        text-decoration: none;
+      }
+
+      .suggestions a:hover {
+        text-decoration: underline;
       }
     </style>
-    <script>
-      // Handle malformed URLs from codelab Close button on GitHub Pages
-      (function() {
-        const path = window.location.pathname;
-        console.log('404 page loaded for path:', path);
-        
-        // Detect base URL from current location for GitHub Pages support
-        // e.g., https://user.github.io/repo-name/ -> /repo-name/
-        const baseUrl = window.location.pathname.split('/')[1] ? '/' + window.location.pathname.split('/')[1] + '/' : '/';
-        console.log('Detected base URL:', baseUrl);
-        
-        // Update home links to use correct base URL
-        const homeLinks = document.querySelectorAll('a[href="/"]');
-        homeLinks.forEach(function(link) {
-          link.href = baseUrl === '/' ? '/' : baseUrl.slice(0, -1); // Remove trailing slash for consistency
-        });
-        
-        // Check if this is a malformed codelab URL (missing dot before html)
-        // Pattern: /baseUrl/viewNamehtml → /baseUrl/viewName.html
-        const malformedPattern = new RegExp('^' + baseUrl.replace(/\/$/, '') + '/([a-z0-9\\-]+)html$', 'i');
-        const match = path.match(malformedPattern);
-        
-        if (match) {
-          const viewName = match[1];
-          const correctUrl = baseUrl.replace(/\/$/, '') + '/' + viewName + '.html';
-          console.log('Detected malformed codelab URL. Redirecting:', path, '→', correctUrl);
-          
-          // Use replace to avoid adding to browser history
-          window.location.replace(correctUrl);
-          return;
-        }
-        
-        // Also check for malformed URLs without base URL (fallback)
-        const simpleMalformedPattern = /^\/([a-z0-9\-]+)html$/i;
-        const simpleMatch = path.match(simpleMalformedPattern);
-        
-        if (simpleMatch) {
-          const viewName = simpleMatch[1];
-          const correctUrl = baseUrl.replace(/\/$/, '') + '/' + viewName + '.html';
-          console.log('Detected simple malformed codelab URL. Redirecting:', path, '→', correctUrl);
-          
-          // Use replace to avoid adding to browser history
-          window.location.replace(correctUrl);
-          return;
-        }
-        
-        // If no redirect pattern matches, show 404 after a brief moment
-        setTimeout(function() {
-          document.getElementById('redirect-message').style.display = 'none';
-          document.getElementById('not-found-message').style.display = 'block';
-        }, 2000);
-      })();
-    </script>
   </head>
 
   <body>
     <div id="wrapper">
-      <a href="/"><span id="logo" aria-label="Google Codelabs"></span></a>
+      <a href="/"><span id="logo" aria-label="CodeVista Labs"></span></a>
       
-      <div id="redirect-message">
-        <p><b>Redirecting...</b> <span class="loading">⟳</span></p>
-        <p><ins>Please wait while we redirect you to the correct page.</ins></p>
+      <div class="error-code">404</div>
+      
+      <div class="error-message">
+        <p><strong>Oops! Page not found.</strong></p>
+        <p><ins>The page you're looking for doesn't exist or has been moved.</ins></p>
       </div>
-      
-      <div id="not-found-message" style="display: none;">
-        <p><b>404.</b> <ins>That's an error.</ins></p>
-        <p>The requested URL was not found. <ins><a href="/">Return to home</a></ins></p>
+
+      <a href="/" class="home-link">Return to Home</a>
+
+      <div class="suggestions">
+        <h3>What can you do?</h3>
+        <ul>
+          <li><a href="/">🏠 Go to the homepage</a></li>
+          <li><a href="/angular">📱 Browse Angular tutorials</a></li>
+          <li><a href="/gcp">☁️ Explore Google Cloud Platform guides</a></li>
+        </ul>
       </div>
     </div>
   </body>
