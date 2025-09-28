@@ -14,6 +14,12 @@ RUN npm ci --only=production
 COPY package.json ./
 RUN npm install
 
+# Install Go and claat tool (required for codelab generation)
+RUN apk add --no-cache go git
+ENV GOPATH=/tmp/go
+ENV PATH=$PATH:$GOPATH/bin
+RUN go install github.com/googlecodelabs/tools/claat@latest
+
 # Copy source code
 COPY . .
 
