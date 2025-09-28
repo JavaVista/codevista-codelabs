@@ -179,8 +179,8 @@ Categories: web, angular, database, cloud
 
 ### **Quick Setup**
 
-1. **Set up GCP Project** - See [CLOUD_RUN_SETUP.md](CLOUD_RUN_SETUP.md) for detailed instructions
-2. **Configure GitHub Secrets** - Add your GCP credentials
+1. **Set up GCP Project** - Follow [CLOUD_RUN_SETUP.md](CLOUD_RUN_SETUP.md)
+2. **Create GitHub Actions** - Follow [GITHUB_ACTIONS_SETUP.md](GITHUB_ACTIONS_SETUP.md) 
 3. **Push to deploy** - Automatic deployment on every push to `main`
 
 ```bash
