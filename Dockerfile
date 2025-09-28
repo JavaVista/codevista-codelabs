@@ -26,6 +26,9 @@ RUN go install github.com/googlecodelabs/tools/claat@latest
 # Copy source code
 COPY . .
 
+# Re-copy bower components after source copy (prevents overwrite)
+COPY app/bower_components/ ./app/bower_components/
+
 # Build the application
 RUN npm run build
 
