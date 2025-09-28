@@ -29,10 +29,6 @@ COPY . .
 # Re-copy bower components after source copy (prevents overwrite)
 COPY app/bower_components/ ./app/bower_components/
 
-# Debug: List what's actually in bower_components
-RUN ls -la app/bower_components/ || echo "No app/bower_components directory"
-RUN ls -la app/bower_components/url-search-params-polyfill/build/ || echo "No url-search-params-polyfill/build directory"
-
 # Build the application
 RUN npm run build
 
