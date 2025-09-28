@@ -15,6 +15,11 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     
+    # Required permissions for Workload Identity Federation
+    permissions:
+      id-token: write    # Required for OIDC token generation
+      contents: read     # Required to checkout code
+    
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
