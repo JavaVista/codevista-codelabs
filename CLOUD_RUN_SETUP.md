@@ -91,6 +91,7 @@ gcloud iam service-accounts create codevista-codelabs-deploy \
 Add these roles to your service account (works for both methods):
 
 **Using gcloud CLI:**
+
 ```bash
 # Get your project ID (if not already set)
 PROJECT_ID=$(gcloud config get-value project)
@@ -176,11 +177,14 @@ After running the commands above, here's how to get the exact values for GitHub 
 **2. `WIF_PROVIDER`** - Workload Identity Provider resource name:
 
 **✅ Use the command output (Recommended):**
+
 ```bash
 # Run this command to get the correct format:
 echo "projects/$(gcloud projects describe $(gcloud config get-value project) --format='value(projectNumber)')/locations/global/workloadIdentityPools/github-actions/providers/github"
 ```
+
 **Or find it in Google Cloud Console:**
+
 1. Go to **IAM & Admin > Service Accounts > Workload Identity Pools**
 2. Click your `GitHub Actions Pool`
 3. Find your Provider and click edit
@@ -189,6 +193,7 @@ echo "projects/$(gcloud projects describe $(gcloud config get-value project) --f
 **The WIF_PROVIDER secret needs the resource name format WITHOUT the `https://iam.googleapis.com/` prefix.**
 
 **3. `WIF_SERVICE_ACCOUNT`** - Service account email:
+
 ```bash
 # Get your service account email:
 echo "codevista-codelabs-deploy@$(gcloud config get-value project).iam.gserviceaccount.com"
@@ -510,11 +515,27 @@ PORT=8080
 GOOGLE_ANALYTICS_ID=your-ga-id
 ```
 
-### Custom Domain (Optional)
+### Custom Domain Setup 🌐
 
-1. Go to **Cloud Run > Manage Custom Domains**
-2. Add your domain
-3. Update DNS records as instructed
+**Transform your ugly URL into something professional:**
+
+**From:** `https://codevista-codelabs-387250926785.us-east1.run.app/`  
+**To:** `https://codelabs.yourdomain.com/` ✨
+
+**📋 Complete Guides Available:**
+
+- 📖 **[Custom Domain Setup Guide](CUSTOM_DOMAIN_SETUP.md)** - Step-by-step domain mapping
+- 🎯 **[URL Optimization Options](URL_OPTIMIZATION_OPTIONS.md)** - Compare all available options
+
+**🚀 Quick Setup:**
+
+1. Own a domain (e.g., `yourdomain.com`)
+2. Go to **Cloud Run > Manage Custom Domains** 
+3. Map your subdomain (e.g., `codelabs.yourdomain.com`)
+4. Update DNS records with your domain provider
+5. Wait for SSL certificate (automatic)
+
+**💰 Cost:** FREE (just domain registration ~$12/year)
 
 ## 🚨 Troubleshooting
 

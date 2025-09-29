@@ -1,5 +1,7 @@
 # 🎯 CodeVista Codelabs
 
+[![Live Site](https://img.shields.io/badge/🚀_Live_Site-Try_Now!-blue?style=for-the-badge&logoColor=white)](https://tinyurl.com/code-vista)
+
 Welcome to **CodeVista Codelabs** - a beautiful, modern platform for creating and hosting interactive coding tutorials.
 
 ## ✨ Features
