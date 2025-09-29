@@ -584,7 +584,7 @@ const generateView = () => {
       ga: ga,
       showcats: categories.length > 1,
       view: view,
-      views: all.views,
+      views: Object.values(all.views),
 
       canonicalViewUrl: viewFuncs.canonicalViewUrl(),
       categoryClass: viewFuncs.categoryClass(),
