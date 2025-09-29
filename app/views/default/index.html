@@ -429,16 +429,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 All Codelabs
               </a>
             </paper-item>
-            {%- for view in views -%}
-            {%- if view.id != 'default' && !view.hidden -%}
+            {% for view in views %}
+            {% if view.id != 'default' && !view.hidden %}
             <paper-item>
               <a href="{{baseUrl}}/{{view.url}}/" tabindex="-1"
                 style="color: inherit; text-decoration: none; display: block; width: 100%; height: 100%; padding: 8px 16px;">
                 {{view.title}}
               </a>
             </paper-item>
-            {%- endif -%}
-            {%- endfor %}
+            {% endif %}
+            {% endfor %}
           </paper-listbox>
         </paper-dropdown-menu>
         {% endif %}
