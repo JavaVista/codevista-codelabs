@@ -21,6 +21,16 @@ In this codelab, you'll learn how to deploy a full-stack application with a data
 - How to create a simple Angular frontend
 - How to deploy the application to Google Cloud
 
+### Architecture Overview
+
+![Architecture Diagram](assets/architecture-diagram.png)
+The architecture of the application consists of the following components:
+
+- **Angular Frontend**: The user interface built with Angular that communicates with the backend API.
+- **Express Backend**: The server-side application that handles API requests and interacts with the database.
+- **Cloud SQL**: The managed database service that stores the application's data.
+- **Cloud Run**: The platform that hosts the Express backend and serves the Angular frontend.
+
 ### What you'll need
 
 - Laptop + Google account (free trial OK), and billing enabled
@@ -718,7 +728,7 @@ cd ~/task-app
 
 Navigate to the Service URL to see your application in action. Every time you visit the URL or refresh the page, you will see the task app. 👇
 
-![to-do-tracker app](assets/to-do-tracker.jpg)
+![to-do-tracker app](assets/to-do-tracker.gif)
 
 ### Test the application
 
